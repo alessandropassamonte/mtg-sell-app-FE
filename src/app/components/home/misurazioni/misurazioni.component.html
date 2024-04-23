@@ -1,0 +1,38 @@
+<h3>Risultati ricerca</h3>
+<table  class="table table-bordered table-striped" id="misurazioni-tab">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Ora</th>
+        <th>Luogo</th>
+        <th>Coordinate Geografiche</th>
+        <th>Altitudine</th>
+        <th>Tipologia di Lavoro</th>
+        <th>Ambiente di Lavoro</th>
+        <th>Indice UV</th>
+        <th>Irraggiamento UV al Suolo (J/m^2)</th>
+        <th>Irradianza Eritemale Corpo (W/m^2)</th>
+        <th>Piedi esposti?</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="risultatiMisurazioni && risultatiMisurazioni.length > 0" >
+      <tr *ngFor="let dato of risultatiMisurazioni">
+        <td>{{ dato.date | date:'dd/MM/yyyy'}}</td>
+        <td>{{ dato.time }}</td>
+        <td>{{ dato.luogo }}</td>
+        <td>{{ dato.latitude +'° N\n' + dato.longitude + '° W' }}</td>
+        <td>{{ dato.altitude +'m' }}</td>
+        <td>{{ dato.workType?.name }}</td>
+        <td>{{ dato.workEnvironment?.name }}</td>
+        <td>{{ dato.uvIrradiance | number:'1.2-2' }}</td>
+        <td>{{ dato.erythemalIrradianceGround | number:'1.2-2' }}</td>
+        <td>{{ dato.erythemalIrradianceShoulders | number:'1.2-2' }}</td>
+        <td>{{ dato.footExposure ? 'SI' : 'NO' }}</td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="risultatiMisurazioni && risultatiMisurazioni.length == 0" >
+      <tr>
+        <td colspan="11" style="text-align: center;"> Nessun risultato da mostrare</td>
+      </tr>
+    </tbody>
+  </table>

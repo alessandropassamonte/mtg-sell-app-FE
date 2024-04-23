@@ -1,0 +1,272 @@
+<div class="container py-5">
+    <form [formGroup]="anamnesiForm" (ngSubmit)="onSubmit()" class="container">
+        <a class="btn btn-primary" [routerLink]="['/home/utente']">
+            < Torna alla Pagina personale</a>
+                <div class="form-group mb-3">
+                    <h2>Anamnesi</h2>
+                    <div class="mb-3 form-group">
+                        <p>
+                            Le informazioni richieste di seguito consentiranno un miglior funzionamento dell'app onde
+                            garantire
+                            informazioni per la prevenzione del rischio da esposizione a radiazione UV solare
+                            maggiormente
+                            specifiche ed
+                            individualizzate.
+                        </p>
+                        <div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" formControlName="consent"
+                                    role="switcheconsenso" id="consent">
+                                <label class="form-check-label" for="consent">{{anamnesiForm.get('consent')?.value
+                                    ? 'Acconsento' : 'Non acconsento'}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ol class="list-group list-group-numbered" *ngIf="anamnesiForm.get('consent')?.value">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Hai avuto Ustioni solari durante l'infanzia/adolescenza (fino a 18
+                                anni)?
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="sunBurnUnderage"
+                                            [value]="'S'"> Si spesso
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="sunBurnUnderage"
+                                            [value]="'O'"> Si occasionalmente
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="sunBurnUnderage"
+                                            [value]="'R'"> Raramente o mai
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Hai avuto ustioni solari nel tempo libero/durante la pratica di sport o
+                                hobbies?</div>
+                            <div class="form-group mb-3">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="sunBurnFreeTime"
+                                            [value]="'S'"> Si spesso
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="sunBurnFreeTime"
+                                            [value]="'O'"> Si occasionalmente
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="sunBurnFreeTime"
+                                            [value]="'R'"> Raramente o mai
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Hai avuto ustioni solari sul lavoro?</div>
+                            <div class="form-group mb-3">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="sunBurnAtJob"
+                                            [value]="'S'">
+                                        Si spesso
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="sunBurnAtJob"
+                                            [value]="'O'"> Si occasionalmente
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="sunBurnAtJob"
+                                            [value]="'R'"> Raramente o mai
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Indica dove hai riportato le ustioni più frequentemente</div>
+                            <!-- <div class="custom-control custom-checkbox image-checkbox" *ngFor="let item of bodyParts">
+                                
+                                <input type="checkbox" class="custom-control-input" id="{{item?.id}}"
+                                    formControlName="bodyParts" [value]="item?.id">
+                                <label class="custom-control-label" for="ck1a"> {{item?.name}}
+                                    <img [src]="'data:image/*;base64, ' + item?.image" alt="testa" class="img-fluid"
+                                        style="width: 100px;">
+                                </label>
+                            </div> -->
+                            <ng-select [items]="bodyParts" formControlName="bodyParts"  bindLabel="name"
+                                [placeholder]="'Seleziona le parti del corpo'"
+                                [multiple]="true" id="nomebodyParts"
+                                [appendTo]="'#nomebodyParts'" >
+                                <ng-template ng-option-tmp let-item="item">
+                                    <div class="d-flex align-items-center">
+                                        <img [src]="'data:image/*;base64, ' + item.image" alt="Parte del corpo"
+                                            class="img-thumbnail" style="width: 50px; height: 50px;">
+                                        <span class="ms-2">{{ item.name }}</span>
+                                    </div>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Ricordi di aver avuto eritemi da esposizione acuta a raggi solari
+                                dovuti a:
+                            </div>
+                            <ng-select formControlName="erythemas" [items]="eritemi" bindLabel="name"
+                                placeholder="Seleziona uno o più opzioni" [multiple]="true" id="nomeeritemi"
+                                [appendTo]="'#nomeeritemi'">
+                            </ng-select>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Hai avuto episodi di intenso bruciore agli occhi, rossore, lacrimazione
+                                e
+                                "sensazione di sabbia negli
+                                occhi" in seguito ad una esposizione in una giornata di sole senza occhiali adeguati su
+                                una
+                                superficie
+                                molto riflettente durante il tempo libero?</div>
+                            <div class="form-group mb-3">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="rednessFreeTime"
+                                            [value]="'O'">
+                                        No
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="rednessFreeTime"
+                                            [value]="'R'"> Si una volta
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="rednessFreeTime"
+                                            [value]="'S'"> Si più volte
+                                    </label>
+                                </div>
+                                <div *ngIf="anamnesiForm.get('rednessFreeTime')?.value === 'S'">
+                                    <label>Quante volte?</label>
+                                    <input type="number" class="form-control" formControlName="howManyTimesFreeTime">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Hai avuto episodi di intenso bruciore agli occhi, rossore, lacrimazione
+                                e
+                                "sensazione di sabbia negli
+                                occhi" in seguito ad una esposizione in una giornata di lavoro con esposizione diretta
+                                al
+                                sole o in
+                                condizioni di lavoro con superfici circostanti molto riflettenti?</div>
+                            <div class="form-group mb-3">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="rednessJob"
+                                            [value]="'O'"> No
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="rednessJob"
+                                            [value]="'R'"> Si una volta
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" formControlName="rednessJob"
+                                            [value]="'S'"> Si più volte
+                                    </label>
+                                </div>
+                                <div *ngIf="anamnesiForm.get('rednessJob')?.value === 'S'">
+                                    <label>Quante volte?</label>
+                                    <input type="number" class="form-control" formControlName="howManyTimesJob">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Le è mai stata diagnosticata una o più delle seguenti
+                                patologie/condizioni
+                                oculari?</div>
+                            <div class="form-group mb-3" formGroupName="patologieOculari">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Occhio Sinistro</label>
+                                        <ng-select formControlName="sinistro" [items]="malattieOculari" bindLabel="name"
+                                             placeholder="Seleziona uno o più malattie" [multiple]="true"
+                                            id="nomeSinistro" [appendTo]="'#nomeSinistro'">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Occhio Destro</label>
+                                        <ng-select formControlName="destro" [items]="malattieOculari" bindLabel="name"
+                                             placeholder="Seleziona uno o più malattie" [multiple]="true"
+                                            id="nomeDestro" [appendTo]="'#nomeDestro'">
+                                        </ng-select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Malattie della pelle:
+                            </div>
+                            <ng-select formControlName="skinDiseases"    [items]="malattieCutanee" bindLabel="name"
+                                 placeholder="Seleziona uno o più opzioni" [multiple]="true"
+                                id="nomeskinDiseases" [appendTo]="'#nomeskinDiseases'">
+                            </ng-select>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="fw-bold">La compilazione è stata eseguita con l’assistenza del medico competente?:
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" formControlName="doctorCompilation"
+                                role="switchdoctorCompilation" id="doctorCompilation">
+                            <label class="form-check-label"
+                                for="doctorCompilation">{{anamnesiForm.get('doctorCompilation')?.value
+                                ? 'SI' : 'NO'}}</label>
+                        </div>
+                    </li>
+                </ol>
+                <button type="submit" *ngIf="anamnesiForm.get('consent')?.value" (click)="save()"
+                    [disabled]="anamnesiForm.invalid" class="btn btn-primary">Salva</button>
+    </form>
+</div>

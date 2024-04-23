@@ -1,0 +1,123 @@
+<div class="container py-5">
+  <div class="row mb-2">
+    <div class="col">
+      <a class="btn btn-primary" [routerLink]="['/home']">
+        < Torna alla Home</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-body text-center">
+
+          <div [ngSwitch]="role">
+            <div *ngSwitchCase="'EMPLOYER'">
+              <img src="../../../../../assets/img/user.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">{{user?.name + ' ' + user?.lastName}}</h5>
+              <p class="text-muted mb-1">Lavoratore</p>
+            </div>
+            <div *ngSwitchCase="'DOCTOR'">
+              <img src="../../../../../assets/img/doctor.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">{{user?.name + ' ' + user?.lastName}}</h5>
+              <p class="text-muted mb-1">Medico Curante</p>
+            </div>
+            <div *ngSwitchCase="'BUSINESS'">
+              <img src="../../../../../assets/img/business.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">{{user?.name + ' ' + user?.lastName}}</h5>
+              <p class="text-muted mb-1">Datore di Lavoro</p>
+            </div>
+            <div *ngSwitchDefault>
+              <p class="text-muted mb-1">Nessun Ruolo</p>
+            </div>
+          </div>
+          
+
+
+        </div>
+      </div>
+      <div class="card mb-4 mb-lg-0">
+        <div class="card-body p-0">
+          <p class="m-3"><strong>Dati di accesso</strong>
+          </p>
+
+          <ul class="list-group list-group-flush rounded-3">
+            <li class="list-group-item d-flex  align-items-center p-3">
+              <div class="form-group">
+                <i class="fas fa-globe fa-lg text-warning"></i>
+                <label for="userId">Username:</label>
+                <input id="userId" [disabled]="true" type="text" class="form-control" [value]="user?.username">
+              </div>
+
+
+            </li>
+            <!-- <li class="list-group-item d-flex  align-items-center p-3">
+              <div class="form-group">
+                <i class="fas fa-globe fa-lg text-warning"></i>
+                <label for="userId">Password:</label><br>
+                <button class="btn btn-primary">Modifica Password
+                  <fa-icon style="color: white" [icon]="faEdit"></fa-icon>
+                </button>
+
+              </div>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-body">
+          <p class="mb-4">Informazioni Generali
+          </p><button class="btn btn-primary" (click)="navigate('/home/informazioni-generali')">Modifica Informazioni
+            Generali <fa-icon style="color: white" [icon]="faEdit"></fa-icon> </button>
+          <div class="row mt-3">
+            <div class="col-sm-3">
+              <p class="mb-0">Nome</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{user?.name + ' ' + user?.lastName}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row mt-3">
+            <div class="col-sm-3">
+              <p class="mb-0">Data di nascita</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{user?.birthDate | date:'dd/MM/yyyy' }}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Email</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{user?.email}}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card mb-4 mb-md-0">
+            <div class="card-body">
+              <p class="mb-4">Anamnesi
+              </p> <button (click)="navigate('/home/anamnesi')" class="btn btn-primary">Modifica Anamnesi <fa-icon
+                  style="color: white" [icon]="faEdit"></fa-icon> </button>
+              <!--             
+                <p class="mb-1" style="font-size: .77rem;">01/01/2023</p>
+                <div class="progress rounded" style="height: 5px;">
+                  <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0"
+                    aria-valuemax="100"></div>
+                </div> -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<!-- Header-->
+<header class="bg-dark py-5">
+  <div class="container px-5">
+    <div class="row gx-5 justify-content-center">
+      <div class="col-lg-12">
+        <div class="text-center ">
+          <span>
+            <img class=" d-inline" src="../../../../assets/img/logo.png" style="width: 290px; margin-right: 20px; margin-bottom: 63px;">
+            <h1 class="display-5 fw-bolder mb-2 d-inline" style="color: #fe7b00;">Banca Dati</h1>
+          </span>
+          
+          <p class="lead text-white-50 mb-1">Il progetto si propone la realizzazione di una banca dati contenuta
+            su un sito web, idonea ad ospitare le informazioni provenienti dalla
+            SmartApp (SOLARE). La banca dati sarà predisposta per permettere l'accesso ai dati relativi all'esposizione eritemale di lavoratori
+            unitamente a informazioni inserite dai lavoratori stessi relative
+            all'attività svolta, che saranno inseriti nell'applicazione dal
+            lavoratore prima dell'utilizzo o derivati da dispositivi
+            multisensore.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+  <div class="container px-5 my-5">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <h5 class="card-header">
+            <div class="rounded-3 mb-3"><i class="bi bi-person-circle"></i>
+            </div>
+          </h5>
+          <div class="card-body">
+            <h5 class="card-title">Login</h5>
+            <p class="card-text">Sei già registrato?</p>
+            <a [routerLink]="['/login']" class="btn btn-primary">Vai alla login</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <h5 class="card-header">
+            <div class="rounded-3 mb-3"><i class="bi bi-search"></i></div>
+          </h5>
+          <div class="card-body">
+            <h5 class="card-title">Registrazione</h5>
+            <p class="card-text">Non sei ancora registrato?</p>
+            <a [routerLink]="['/login']" [queryParams]="{ tabAttivoPassed: 'card-simpletab2' }" class="btn btn-primary">Vai alla registrazione</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>

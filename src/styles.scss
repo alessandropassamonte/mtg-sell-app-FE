@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files */
+/* Importing Datepicker SCSS file. */
+
+@import "../node_modules/@ng-select/ng-select/scss/default.theme.scss";
+
+@import "../node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+
+@import "../node_modules/ngx-toastr/toastr";
+
+@import '~leaflet/dist/leaflet.css';
+
+#custom-spinner {
+  width: 60px !important;
+}
+
+.d-none {
+  display: none;
+}
+
+.invalid-feedback {
+  display: none;
+}
+
+.btn.disabled {
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+body {
+  background-color: rgb(255, 253, 208);
+
+  margin-bottom: 80px;
+}
+.sticky-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.btn-primary{
+  background-color:rgb(240, 172, 55) ;
+  --bs-btn-hover-color: #fff !important;
+  --bs-btn-hover-bg: #ff7c00 !important;
+}
+
+.leaflet-bottom{
+  display: none
+}

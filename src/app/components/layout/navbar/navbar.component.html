@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark  border-light  border-bottom" >
+    <div class="container px-5">
+        <a class="navbar-brand" [routerLink]="['home']"><img src="../../../../assets/img/logo.png" style="width: 120px;"></a>
+        <h4 class="fw-bolder" style="color: #fe7b00; margin-bottom: 0; margin-top: 13px;">Banca Dati</h4>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                <li class="nav-item"><a class="nav-link" [routerLink]="['/home/utente']">Utente</a></li>
+                <li class="nav-item"><a class="nav-link" [routerLink]="['/home/ricerca']">Ricerca</a></li>
+            </ul>
+        </div>
+        <div class="dropdown" *ngIf="isAuthenticated()" style="margin-left: 10px;">
+            <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" 
+                role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white !important; display: -webkit-inline-box; margin-right: 0 !important;">{{user?.username}}
+                <div [ngSwitch]="user?.officialRole">
+                    <div *ngSwitchCase="'employer'">
+                      <img src="../../../../../assets/img/user.png" alt="avatar" class="rounded-circle" height="25"
+                      alt="Black and White Portrait of a Man" loading="lazy">
+                    </div>
+                    <div *ngSwitchCase="'doctor'">
+                      <img src="../../../../../assets/img/doctor.png" alt="avatar" class="rounded-circle" height="25"
+                      alt="Black and White Portrait of a Man" loading="lazy">
+                    </div>
+                    <div *ngSwitchCase="'business'">
+                      <img src="../../../../../assets/img/business.png" alt="avatar" class="rounded-circle" height="25"
+                      alt="Black and White Portrait of a Man" loading="lazy">
+                    </div>
+                    <div *ngSwitchDefault>
+                    </div>
+                  </div>
+                <!-- <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25"
+                    alt="Black and White Portrait of a Man" loading="lazy" /> -->
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                    <a class="dropdown-item" [routerLink]="['/home/utente']">Profilo</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
