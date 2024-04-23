@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.example.app',
-  appName: 'solare-app',
+  appName: 'mtg-sell-app',
   webDir: 'dist',
   server: {
     androidScheme: 'https'

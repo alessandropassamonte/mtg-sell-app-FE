@@ -17,5 +17,5 @@ export class AppComponent implements OnInit {
   }
 
 
-  title = 'solare-app';
+  title = 'mtg-sell-app';
 }
