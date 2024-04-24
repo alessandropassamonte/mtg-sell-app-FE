@@ -11,6 +11,10 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router, private jwtHelper: JwtHelperService) { }
 
   canActivate(): boolean {
+
+
+    return true
+
     let tokeIntem = localStorage.getItem('access_token')
     try {
       if (this.authService.isAuthenticated() && !this.jwtHelper.isTokenExpired(tokeIntem)) {
@@ -30,12 +34,4 @@ export class AuthGuard implements CanActivate {
     return false;
   }
 
-  // private isValidJWT(token: any): boolean {
-  //   try {
-  //     const decodedToken = jwt_decode(token);
-  //     return true;
-  //   } catch (error) {
-  //     return false;
-  //   }
-  // }
 }

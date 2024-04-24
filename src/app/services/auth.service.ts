@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../envioronment/environment'
 import { FormGroup } from '@angular/forms';
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpRequest } from "@angular/common/http";
 import * as CryptoJS from 'crypto-js';
 import { DatePipe } from '@angular/common';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -47,10 +47,7 @@ export class AuthService {
       
 
       this.setUser({
-        username: decodedToken?.username,
-        name: decodedToken?.name,
-        lastName: decodedToken?.lastname,
-        officialRole: decodedToken?.roles[0]
+        username: decodedToken?.sub,
       })
     }
     return token ? true : false;
@@ -60,7 +57,7 @@ export class AuthService {
     
     let body = {
       username: inputForm.get('username')?.value,
-      password: this.encryptPassword(inputForm.value?.password),
+      password: inputForm.get('password')?.value,
     }
     return this.http.post<any>(this.api_url + 'login', body)
 }
@@ -95,11 +92,7 @@ export class AuthService {
 
   public logout(): void {
     localStorage.removeItem(this.accessTokenKey);
-    localStorage.removeItem(this.refreshTokenKey);
-    localStorage.removeItem(this.keepConn);
-    localStorage.removeItem('name');
     localStorage.removeItem('username');
-    localStorage.removeItem('lastname');
     this.accessTokenSubject.next(null);
     this.router.navigate(['login']);
 
@@ -140,7 +133,6 @@ export class AuthService {
     const refreshToken = localStorage.getItem(this.refreshTokenKey);
     return this.http.post<any>(`${this.api_url}refresh-token`, { refreshToken })
       .pipe(
-        // Aggiorna il token in caso di successo
         tap(response => {
           const accessToken = response.access_token;
           localStorage.setItem(this.accessTokenKey, accessToken);
@@ -148,4 +140,7 @@ export class AuthService {
         })
       );
   }
+
+
 }
+

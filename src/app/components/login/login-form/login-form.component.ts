@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-form',
@@ -26,26 +27,20 @@ export class LoginFormComponent implements OnInit {
     this.authService.login(this.formLogin).subscribe({
       next: (res: any) => {
         const accessToken = res.token;
-        const refreshToken = res.refreshToken;
-        localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('access_token', accessToken!);
 
         if (this.formLogin.get('keepConnection')?.value) {
-          localStorage.setItem('refresh_token', refreshToken);
           localStorage.setItem('keep_connection', this.formLogin.get('keepConnection')?.value);
         }
 
         const helper = new JwtHelperService();
 
         const decodedToken = helper.decodeToken(res.token);
-        localStorage.setItem('username', decodedToken?.username);
-        localStorage.setItem('name', decodedToken?.name);
-        localStorage.setItem('lastname', decodedToken?.lastname);
+        console.log('decoded ', helper.decodeToken(res.token))
+        localStorage.setItem('username', decodedToken?.sub);
 
         this.authService.setUser({
           username: decodedToken?.username,
-          name: decodedToken?.name,
-          lastName: decodedToken?.lastname,
-          officialRole: decodedToken?.roles[0]
         })
 
       
@@ -55,6 +50,8 @@ export class LoginFormComponent implements OnInit {
       }
     })
   }
+
+  
 
 
 
