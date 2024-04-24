@@ -59,7 +59,7 @@ export class AuthService {
       username: inputForm.get('username')?.value,
       password: inputForm.get('password')?.value,
     }
-    return this.http.post<any>(this.api_url + 'login', body)
+    return this.http.post<any>(this.api_url + 'auth/login', body)
 }
 
 

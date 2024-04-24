@@ -12,6 +12,9 @@
 <div class="card mt-4">
     <form [formGroup]="formLogin" class="needs-validation">
         <div class="container">
+            <alert *ngIf="errorMessage" type="danger">
+                <strong>Errore</strong> Credenziali Errate.
+              </alert>
             <div class="row m-2">
                 <div class="col-sm-12">
                     <div class="form-group">
@@ -41,25 +44,10 @@
                             <div *ngIf="formLogin.get('password')?.hasError('required')">
                                 Inserire la password.
                             </div>
-                            <!-- <div *ngIf="formLogin.get('password')?.errors?.pattern">Enter Valid Email ID!</div> -->
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div class="row m-2">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label for="password">Ruolo:</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="ruolo"
-                            [ngClass]="{ 'is-invalid': formLogin.get('ruolo')?.touched && formLogin.get('ruolo')?.errors, 'is-valid': formLogin.get('ruolo')?.valid }">
-                            <option value="1">Lavoratore</option>
-                            <option value="2">Medico competente</option>
-                            <option value="3">Ricercatore-datore di lavoro</option>
-                            <option value="4">Organo di vigilanza</option>
-                        </select>
-                    </div>
-                </div>
-            </div> -->
             <div class="row m-2 mt-3">
                 <div class="col-sm-4">
                     <div class="form-group">
@@ -67,11 +55,6 @@
                         <label for="remember-me">Resta connesso</label>
                     </div>
                 </div>
-                <!-- <div class="col-sm-4">
-                    <div class="form-group">
-                        <a href="#" class="forgot-password">Hai dimenticato la password?</a>
-                    </div>
-                </div> -->
             </div>
 
             <div class="row mt-4 mb-4">

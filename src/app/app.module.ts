@@ -21,6 +21,8 @@ import { NavbarComponent } from './components/layout/navbar/navbar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AlertModule } from 'ngx-bootstrap/alert';
+
 
 export function jwtOptionsFactory() {
   return {
@@ -39,6 +41,7 @@ registerLocaleData(localeIta);
     NavbarComponent,
     WelcomeComponent,
     FooterComponent,
+    
 
   ],
   imports: [
@@ -58,7 +61,7 @@ registerLocaleData(localeIta);
         provide: JWT_OPTIONS,
         useFactory: jwtOptionsFactory,
       },
-    })
+    }),
     
 
   ],

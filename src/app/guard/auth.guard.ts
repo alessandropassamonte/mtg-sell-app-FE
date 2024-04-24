@@ -12,9 +12,6 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean {
 
-
-    return true
-
     let tokeIntem = localStorage.getItem('access_token')
     try {
       if (this.authService.isAuthenticated() && !this.jwtHelper.isTokenExpired(tokeIntem)) {

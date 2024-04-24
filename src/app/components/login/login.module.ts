@@ -7,6 +7,8 @@ import { RegistrationFormComponent } from './registration-form/registration-form
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ActivateComponent } from './activate/activate.component';
+import { AlertModule } from 'ngx-bootstrap/alert';
+
 
 
 @NgModule({
@@ -16,7 +18,8 @@ import { ActivateComponent } from './activate/activate.component';
     LoginRoutingModule,
     FormsModule, 
     ReactiveFormsModule,
-    BsDatepickerModule
+    BsDatepickerModule,
+    AlertModule
   ]
   
 })

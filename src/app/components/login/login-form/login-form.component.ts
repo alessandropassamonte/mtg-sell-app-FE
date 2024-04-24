@@ -12,7 +12,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 })
 export class LoginFormComponent implements OnInit {
 
-
+  errorMessage!: String;
   formLogin!: FormGroup
   constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) { }
   ngOnInit() {
@@ -26,6 +26,7 @@ export class LoginFormComponent implements OnInit {
   login() {
     this.authService.login(this.formLogin).subscribe({
       next: (res: any) => {
+        this.errorMessage = ''
         const accessToken = res.token;
         localStorage.setItem('access_token', accessToken!);
 
@@ -47,6 +48,10 @@ export class LoginFormComponent implements OnInit {
 
         this.authService.accessTokenSubject.next(accessToken);
         this.router.navigate(['home']);
+      },
+      error: (error) => {
+        console.error('Errore durante il login:', error);
+        this.errorMessage = 'Credenziali Errate'
       }
     })
   }
