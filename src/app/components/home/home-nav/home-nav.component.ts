@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { CardService } from 'src/app/services/card.service';
 import { FileService } from 'src/app/services/file.service';
+import { environment } from 'src/envioronment/environment';
 
 @Component({
   selector: 'app-home-nav',
@@ -8,23 +12,44 @@ import { FileService } from 'src/app/services/file.service';
 })
 export class HomeNavComponent implements OnInit {
 
-  constructor(private fileService: FileService){}
+  
+  data: any;
+  cards!: any[];
+  totalItems= 0;
 
-  ngOnInit(): void {
-    this.filterAndSave()
+  currentPage = 0;
+  itemsPerPage = 12;
+
+
+  constructor(private cardService: CardService, private cdr: ChangeDetectorRef){
+
+    
   }
 
-  filterAndSave(): void {
-    const filePath = 'assets/JSON/filtered.json'; 
+  ngOnInit(): void {
+    this.getAllCards()
+  }
 
-    this.fileService.getJsonData(filePath).subscribe((data : any) => {
-      console.log('data ', data)
-      
-      const filteredData = this.fileService.filterData(data);
 
-      // Salvataggio dei dati filtrati in un nuovo file JSON
-      this.fileService.downloadFilteredData(filteredData, 'filtered_data');
-    });
+
+  getAllCards() {
+    this.cardService.getAllCardPaginated(this.currentPage, this.itemsPerPage).subscribe({
+      next: (res: any) => {
+        this.data = res
+        this.cards = res.content
+        this.totalItems = res.totalElements
+      }
+    })
+  }
+
+  pageChanged(event: PageChangedEvent): void {
+    this.cardService.getAllCardPaginated((event.page - 1), event.itemsPerPage).subscribe({
+      next: (res: any) => {
+        this.data = res
+        this.cards = res.content
+        this.totalItems = res.totalElements
+      }
+    })
   }
 
 }
