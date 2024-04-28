@@ -37,15 +37,18 @@
           <div class="card" style="width: 18rem;">
             <img class="card-img-top" [src]="item.png" alt="Card image cap">
             <div class="card-body">
-              <h5 class="card-title">{{item.printedName ? (item.printedName + ' (' + item.name + ')') : item.name}}</h5>
+              <h5 class="card-title">
+                <a class="btn btn-primary" (click)="navigate(item.cardId)">
+                  {{item.printedName ? (item.printedName + ' (' + item.name + ')') : item.name}} </a>
+              </h5>
               <small *ngFor="let setItem of item.editions">
                 <div class="d-flex align-items-center">
                   <img [src]="setItem.setIcon" alt="Edition"
                        style="width: 40px; height: 40px;">
-                  <span class="ms-2">{{ setItem.setName }}</span>
+                  <span class="ms-2" >{{ setItem.setName }}</span>
               </div>
               </small>
-              <a >{{item.printedText ? item.printedText : item.oracleText}}</a>
+              <p>{{item.printedText ? item.printedText : item.oracleText}}</p>
             </div>
           </div>
         </div>

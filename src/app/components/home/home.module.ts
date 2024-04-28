@@ -13,9 +13,10 @@ import { RicercaComponent } from './ricerca/ricerca.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { DettaglioComponent } from './dettaglio/dettaglio.component';
 
 @NgModule({
-  declarations: [HomeComponent, HomeNavComponent, HomeSearchComponent, UtenteComponent, RicercaComponent],
+  declarations: [HomeComponent, HomeNavComponent, HomeSearchComponent, UtenteComponent, RicercaComponent, DettaglioComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,

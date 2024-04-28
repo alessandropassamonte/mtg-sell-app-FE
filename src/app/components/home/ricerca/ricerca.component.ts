@@ -4,6 +4,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { CardService } from 'src/app/services/card.service';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { Card } from 'src/app/models/card';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-ricerca',
@@ -17,13 +18,18 @@ export class RicercaComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
-    private localeService: BsLocaleService, private cardService: CardService) {
+    private localeService: BsLocaleService, private cardService: CardService, private router: Router) {
     this.localeService.use('it');
   }
 
   ngOnInit() {
     this.createForm()
-    this.getAllCards()
+    if (this.searchForm.get('search')) {
+      this.search()
+    } else {
+      this.getAllCards()
+    }
+    
   }
 
   data: any;
@@ -82,5 +88,9 @@ export class RicercaComponent implements OnInit {
       })
     }
 
+  }
+
+  navigate(id: any) {
+    this.router.navigate(['/home/dettaglio', id]);
   }
 }
