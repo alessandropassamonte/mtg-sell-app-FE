@@ -11,26 +11,9 @@
       <div class="card mb-4">
         <div class="card-body text-center">
 
-          <div [ngSwitch]="role">
-            <div *ngSwitchCase="'EMPLOYER'">
-              <img src="../../../../../assets/img/user.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+          <img src="../../../../../assets/img/user.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
               <h5 class="my-3">{{user?.name + ' ' + user?.lastName}}</h5>
               <p class="text-muted mb-1">Lavoratore</p>
-            </div>
-            <div *ngSwitchCase="'DOCTOR'">
-              <img src="../../../../../assets/img/doctor.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-              <h5 class="my-3">{{user?.name + ' ' + user?.lastName}}</h5>
-              <p class="text-muted mb-1">Medico Curante</p>
-            </div>
-            <div *ngSwitchCase="'BUSINESS'">
-              <img src="../../../../../assets/img/business.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-              <h5 class="my-3">{{user?.name + ' ' + user?.lastName}}</h5>
-              <p class="text-muted mb-1">Datore di Lavoro</p>
-            </div>
-            <div *ngSwitchDefault>
-              <p class="text-muted mb-1">Nessun Ruolo</p>
-            </div>
-          </div>
           
 
 
