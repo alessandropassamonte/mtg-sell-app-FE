@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/envioronment/environment';
@@ -21,4 +21,10 @@ export class UserService {
     return this.http.get<any>(this.api_url + 'userRole')
   }
 
+  getCardByUser(page: number, size: number): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+    return this.http.get<any>(this.api_url + 'cards', { params: params })
+  }
 }

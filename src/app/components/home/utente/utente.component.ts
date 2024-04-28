@@ -6,6 +6,8 @@ import { User } from '../../models/user';
 import { faEdit, faSearch, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from 'src/app/services/user.service';
 import { DatePipe } from '@angular/common';
+import { Card } from 'src/app/models/card';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 
 
@@ -15,29 +17,37 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./utente.component.scss']
 })
 export class UtenteComponent implements OnInit {
-  user: User | null | undefined;
 
-  role: string = ''
+  currentPage = 0;
+  itemsPerPage = 12;
+  totalItems!: any
 
-
-  subscription = new Subscription();
-
-  faEdit = faEdit;
-
+  cards!: Card[]; 
   constructor(private authService: AuthService, private router: Router, private userService: UserService, private datePipe: DatePipe) {
-    // this.subscription.add(this.authService.getUser().subscribe((user: User | null) => this.user = user));
   }
 
   ngOnInit() {
-    this.userService.getUserInSession().subscribe({
+    this.userService.getCardByUser(this.currentPage, this.itemsPerPage).subscribe({
       next: (res: any) => {
-        this.user = res
-        this.role = res?.roles[0]?.role
+        this.cards = res.content
+        this.totalItems = res.totalElements
       }
     })
   }
 
   navigate(input: string) {
     this.router.navigate([input])
+  }
+
+  pageChanged(event: PageChangedEvent): void {
+    
+      this.userService.getCardByUser((event.page - 1), event.itemsPerPage).subscribe({
+        next: (res: any) => {
+          this.cards = res.content
+          this.totalItems = res.totalElements
+        }
+      })
+    
+
   }
 }

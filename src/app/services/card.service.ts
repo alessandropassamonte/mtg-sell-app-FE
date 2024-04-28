@@ -31,7 +31,6 @@ export class CardService {
   }
 
   findByCardId(cardId: any): Observable<any> {
-
     const url = `${this.api_uri}/card/${cardId}`;
     return this.http.get<any>(url)
   }
