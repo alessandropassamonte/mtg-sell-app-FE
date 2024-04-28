@@ -13,7 +13,7 @@ export class CardService {
 
   api_url = environment.api_url
 
-  getAllCardPaginated(page: number, size: number): Observable<Card> {
+  getAllCardPaginated(page: number, size: number): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
@@ -21,7 +21,7 @@ export class CardService {
   }
 
 
-  search(page: number, size: number, searchForm: any): Observable<Card> {
+  search(page: number, size: number, searchForm: any): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString())

@@ -1,9 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { PageChangedEvent } from 'ngx-bootstrap/pagination';
-import { CardService } from 'src/app/services/card.service';
-import { FileService } from 'src/app/services/file.service';
-import { environment } from 'src/envioronment/environment';
+import {  Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home-nav',
@@ -12,19 +7,8 @@ import { environment } from 'src/envioronment/environment';
 })
 export class HomeNavComponent implements OnInit {
 
-  
- 
+  constructor(){}
 
-  constructor(private cardService: CardService, private cdr: ChangeDetectorRef){
-
-    
-  }
-
-  ngOnInit(): void {
-  }
-
-
-
-  
+  ngOnInit(): void {}
 
 }

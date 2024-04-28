@@ -101,7 +101,6 @@ export class AuthService {
   encryptPassword(password: string): string {
     const secretKey = CryptoJS.enc.Utf8.parse(environment.AES_key);
     const plaintextPassword = password;
-    // Encrypt the plaintext password
     const encryptedBytes = CryptoJS.AES.encrypt(plaintextPassword, secretKey, {
         mode: CryptoJS.mode.ECB,
         padding: CryptoJS.pad.Pkcs7
