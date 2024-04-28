@@ -8,6 +8,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { RicercaService } from 'src/app/services/ricerca.service';
 import { TipologicheService } from 'src/app/services/tipologiche.service';
 import { UserService } from 'src/app/services/user.service';
+import { CardService } from 'src/app/services/card.service';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { Card } from 'src/app/models/card';
 
 @Component({
   selector: 'app-ricerca',
@@ -42,98 +45,83 @@ export class RicercaComponent implements OnInit {
   longitude: number = 13;
 
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService,
-    private localeService: BsLocaleService, private ricercaService: RicercaService, private tipologicheService: TipologicheService,
-    private userService: UserService) {
-      this.subscription.add(this.authService.getUser().subscribe((user: User | null) =>{
-        
-        this.user = user
-        this.workerList.push(user)
-      }));
-    this.tipologicheService.getLavori().subscribe({
-      next: (res: any) => {
-        this.jobCategoryOptions = res
-      }
-    })
-    this.tipologicheService.getAmbienteLavori().subscribe({
-      next: (res: any) => {
-        this.environmentOptions = res
-      }
-    })
-    this.userService.getUserInSession().subscribe((user: any) => {
-      this.user = user
-      this.role = user?.roles[0].role
-      this.workerList.push(this.user)
-      
-    });
+  constructor(private formBuilder: FormBuilder,
+    private localeService: BsLocaleService, private cardService: CardService) {
     this.localeService.use('it');
 
 
   }
 
-  role!: string;
-  user: User | null | undefined;
-  icon = {
-    icon: L.icon({
-      iconSize: [25, 41],
-      iconAnchor: [15, 45],
-      iconUrl: '../../../../assets/img/marker-icon-2x.png',
-      shadowUrl: '../../../../assets/img/marker-shadow.png'
-    })
-  };
-  subscription = new Subscription();
-  username: string = '';
 
-  // workerList: any[] = [{ username: 'User1', id: 1 }, { username: 'User2', id: 2 }]
+  user: User | null | undefined;
+  subscription = new Subscription();
+
 
   workerList: any[] = []
 
-  // selectedWorkers: any[] = [{ username: 'User2', id: 2 }]
 
 
   ngOnInit() {
     this.createForm()
-    this.initializeMap()
+    this.getAllCards()
    
   }
 
+  data: any;
+  cards!: Card[];
+  totalItems= 0;
+
+  currentPage = 0;
+  itemsPerPage = 12;
+
+
   createForm() {
     this.searchForm = this.formBuilder.group({
-      workers: [[this.user], Validators.required],
-      bodyRegions: ['', Validators.required],
-      jobCategories: ['', Validators.required],
-      environments: ['', Validators.required],
-      raggio: [5, Validators.required],
-      dateRange: []
+      search: ['', Validators.required]
+     
     });
   }
 
 
-  initializeMap() {
-    this.map = L.map('map').setView([this.latitude, this.longitude], 10);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(this.map);
-
-    const marker = L.marker([this.latitude, this.longitude], this.icon).addTo(this.map);
-
-    this.map.on('click', (e: any) => {
-      const { lat, lng } = e.latlng;
-      marker.setLatLng([lat, lng]);
-      this.latitude = lat;
-      this.longitude = lng;
-    });
-  }
   search() {
-    this.ricercaService.getMeasureBySearch(this.searchForm.value, this.latitude, this.longitude).subscribe({
+    this.cardService.search(0, this.itemsPerPage, this.searchForm.value).subscribe({
       next: (res: any) => {
-        this.risultatiMisurazioni = res
+        this.data = res
+        this.cards = res.content
+        this.totalItems = res.totalElements
       }
     })
   }
 
-  addWorker() {
-    const workerName = this.searchForm.get('workers')?.value;
+
+  getAllCards() {
+    this.cardService.getAllCardPaginated(this.currentPage, this.itemsPerPage).subscribe({
+      next: (res: any) => {
+        this.data = res
+        this.cards = res.content
+        this.totalItems = res.totalElements
+      }
+    })
+  }
+
+  pageChanged(event: PageChangedEvent): void {
+    if(this.searchForm.get('search')){
+      this.cardService.search((event.page - 1), event.itemsPerPage, this.searchForm.value).subscribe({
+        next: (res: any) => {
+          this.data = res
+          this.cards = res.content
+          this.totalItems = res.totalElements
+        }
+      })
+    } else {
+      this.cardService.getAllCardPaginated((event.page - 1), event.itemsPerPage).subscribe({
+        next: (res: any) => {
+          this.data = res
+          this.cards = res.content
+          this.totalItems = res.totalElements
+        }
+      })
+    }
+    
   }
 }

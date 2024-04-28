@@ -13,13 +13,7 @@ import { environment } from 'src/envioronment/environment';
 export class HomeNavComponent implements OnInit {
 
   
-  data: any;
-  cards!: any[];
-  totalItems= 0;
-
-  currentPage = 0;
-  itemsPerPage = 12;
-
+ 
 
   constructor(private cardService: CardService, private cdr: ChangeDetectorRef){
 
@@ -27,29 +21,10 @@ export class HomeNavComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllCards()
   }
 
 
 
-  getAllCards() {
-    this.cardService.getAllCardPaginated(this.currentPage, this.itemsPerPage).subscribe({
-      next: (res: any) => {
-        this.data = res
-        this.cards = res.content
-        this.totalItems = res.totalElements
-      }
-    })
-  }
-
-  pageChanged(event: PageChangedEvent): void {
-    this.cardService.getAllCardPaginated((event.page - 1), event.itemsPerPage).subscribe({
-      next: (res: any) => {
-        this.data = res
-        this.cards = res.content
-        this.totalItems = res.totalElements
-      }
-    })
-  }
+  
 
 }

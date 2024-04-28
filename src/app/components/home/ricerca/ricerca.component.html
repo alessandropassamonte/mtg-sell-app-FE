@@ -13,71 +13,47 @@
     <div class="card-body">
       <form [formGroup]="searchForm" (ngSubmit)="search()">
         <div class="row mb-3">
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <div class="form-group">
-              <label>Lavoratore</label>
-              <ng-select formControlName="workers"  [multiple]="true" [readonly]="user?.officialRole == 'employer'" [items]="workerList"
-                bindLabel="username">
-              </ng-select>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="form-group">
-              <label>Lavoro</label>
-              <ng-select formControlName="jobCategories" [multiple]="true" [items]="jobCategoryOptions" bindLabel="name"
-                bindValue="id" [placeholder]="'Seleziona una o più opzioni'">
-              </ng-select>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="form-group">
-              <label>Ambiente</label>
-              <ng-select formControlName="environments" [multiple]="true" [items]="environmentOptions" bindLabel="name"
-                bindValue="id" [placeholder]="'Seleziona una o più opzioni'">
-              </ng-select>
+              <label for="latitude">Nome Carta:</label>
+              <input type="text" class="form-control" id="search" formControlName="search">
             </div>
           </div>
         </div>
-
-        <div class="row mb-3">
-          <div class="col-sm-3">
-            <div class="form-group">
-              <label>Interrvallo di date</label>
-              <input type="text" placeholder="Seleziona intervallo di date" class="form-control"
-                formControlName="dateRange" bsDaterangepicker [bsConfig]="configDate">
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="form-group">
-              <label for="raggio">Raggio ricerca in Km:</label>
-              <ng-select formControlName="raggio" [multiple]="false" [items]="distanze" bindLabel="raggio">
-              </ng-select>
-            </div>
-          </div>
-
-          <div class="col-sm-3">
-            <div class="form-group">
-              <label for="latitude">Latitudine:</label>
-              <input type="text" class="form-control" id="latitude" [(ngModel)]="latitude"
-                [ngModelOptions]="{standalone: true}">
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <label for="longitude">Longitudine:</label>
-            <input type="text" class="form-control" id="longitude" [(ngModel)]="longitude"
-              [ngModelOptions]="{standalone: true}">
-          </div>
-          <div class="col-sm-3">
-
-          </div>
-        </div>
-        <div id="map" style="height: 300px;"></div>
-
         <button type="submit" class="btn btn-primary">CERCA</button>
       </form>
     </div>
   </div>
 
-  <app-misurazioni [risultatiMisurazioni]="risultatiMisurazioni"></app-misurazioni>
 
-</div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h6>Parametri di ricerca</h6>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div *ngFor="let item of cards" class="col-md-3 mb-3">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" [src]="item.png" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{item.printedName ? (item.printedName + ' (' + item.name + ')') : item.name}}</h5>
+              <small *ngFor="let setItem of item.editions">
+                <div class="d-flex align-items-center">
+                  <img [src]="setItem.setIcon" alt="Edition"
+                       style="width: 40px; height: 40px;">
+                  <span class="ms-2">{{ setItem.setName }}</span>
+              </div>
+              </small>
+              <a >{{item.printedText ? item.printedText : item.oracleText}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center d-flex" style="margin-left: auto; margin-right: auto;">
+      <pagination [boundaryLinks]="true" [(ngModel)]="currentPage" [totalItems]="totalItems"
+        [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize]=10></pagination>
+    </div>
+  </div>
