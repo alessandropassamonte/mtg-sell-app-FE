@@ -5,6 +5,7 @@ import { CardService } from 'src/app/services/card.service';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { Card } from 'src/app/models/card';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-ricerca',
@@ -17,8 +18,9 @@ export class RicercaComponent implements OnInit {
 
 
 
+  cardsId: number[] = []
   constructor(private formBuilder: FormBuilder,
-    private localeService: BsLocaleService, private cardService: CardService, private router: Router) {
+    private localeService: BsLocaleService, private cardService: CardService, private router: Router, private userService: UserService) {
     this.localeService.use('it');
   }
 
@@ -92,5 +94,17 @@ export class RicercaComponent implements OnInit {
 
   navigate(id: any) {
     this.router.navigate(['/home/dettaglio', id]);
+  }
+
+  aggiungiCarta(id: any){
+    this.cardsId.push(id)
+    this.userService.addCardToUser(this.cardsId).subscribe({
+      next: (res: any) => {
+        this.cardsId = []
+      },
+      error: (error) => {
+        this.cardsId = []
+      }
+    })
   }
 }
