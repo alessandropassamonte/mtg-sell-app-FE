@@ -42,7 +42,7 @@
       <div class="col-lg-8">
         <div class="card mb-4">
           <div class="card-body">
-            <p class="mb-4">Informazioni Generali
+            <p class="mb-4">Informazioni Carta:
             </p>
             <div class="row mt-3">
               <div class="col-sm-3">
@@ -69,6 +69,15 @@
               <div class="col-sm-9">
                 <p *ngFor="let color of card.colorIdentities" class="text-muted mb-0"><img [src]="color.image" alt="Edition"
                     style="width: 20px; height: 20px;">
+              </div>
+            </div>
+            <hr>
+            <div class="row mt-3">
+              <div class="col-sm-3">
+                <p class="mb-0">Prezzo CardMarket</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{card.priceCM}}</p>
               </div>
             </div>
   
