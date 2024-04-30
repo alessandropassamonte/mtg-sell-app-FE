@@ -14,7 +14,7 @@
           <img src="../../../../../assets/img/user.png" alt="avatar" class="rounded-circle img-fluid"
             style="width: 150px;">
           <h5 class="my-3">NAME</h5>
-          <p class="text-muted mb-1">Lavoratore</p>
+          <p class="text-muted mb-1">Venditore Carte MTG</p>
 
 
 
@@ -73,32 +73,25 @@
 
         </div>
       </div>
-      <div class="row" *ngIf="cards.length > 0">
+      <div class="row mb-4" >
         <div class="col-md-12">
           <div class="card mb-4 mb-md-0">
             <div class="card-body">
               <p class="mb-4">Carte Possedute
               </p>
+              <button class="btn btn-primary" (click)="navigate('/home/utente/carte')"> Vai a Carte Possedute > </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              <div class="container">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of cards">
-                      <td>{{ item.id }}</td>
-                      <td>{{ item.name }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <pagination [boundaryLinks]="true" [(ngModel)]="currentPage" [totalItems]="totalItems"
-                  [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize]=10></pagination>
-              </div>
+      <div class="row" >
+        <div class="col-md-12">
+          <div class="card mb-4 mb-md-0">
+            <div class="card-body">
+              <p class="mb-4">Ordini
+              </p>
+              <button class="btn btn-primary" (click)="navigate('/home/utente/ordini')"> Vai alla gestione Ordini > </button>
             </div>
           </div>
         </div>

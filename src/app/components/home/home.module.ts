@@ -14,9 +14,13 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { DettaglioComponent } from './dettaglio/dettaglio.component';
+import { CartePosseduteComponent } from './utente/carte-possedute/carte-possedute.component';
+import { GestioneOrdiniComponent } from './utente/gestione-ordini/gestione-ordini.component';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
-  declarations: [HomeComponent, HomeNavComponent, HomeSearchComponent, UtenteComponent, RicercaComponent, DettaglioComponent],
+  declarations: [HomeComponent, HomeNavComponent, HomeSearchComponent, UtenteComponent, RicercaComponent, DettaglioComponent, CartePosseduteComponent, GestioneOrdiniComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -25,7 +29,9 @@ import { DettaglioComponent } from './dettaglio/dettaglio.component';
     NgSelectModule,
     FormsModule,
     BsDatepickerModule,
-    PaginationModule
+    PaginationModule,
+    TypeaheadModule,
+    TooltipModule
   ]
 })
 export class HomeModule { }

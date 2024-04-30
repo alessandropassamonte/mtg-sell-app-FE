@@ -1,0 +1,30 @@
+<div class="container" >
+    <div class="row mb-2">
+        <div class="col">
+          <a class="btn btn-primary" [routerLink]="['/home/utente']">
+            < Torna alla sezione Utente</a>
+        </div>
+      </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="cards.length > 0">
+        <tr *ngFor="let item of cards">
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="cards.length == 0">
+        <tr >
+          <td>Nessuna carta Posseduta</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <pagination *ngIf="cards.length > 0" [boundaryLinks]="true" [(ngModel)]="currentPage" [totalItems]="totalItems"
+      [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize]=10></pagination>
+  </div>

@@ -75,4 +75,6 @@ export class Card {
     colorIdentities?: Color[];
     editions?: Edition[];
     legalities?: Legality[];
+
+    priceCM?: string;
 }

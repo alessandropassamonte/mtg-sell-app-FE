@@ -34,4 +34,23 @@ export class CardService {
     const url = `${this.api_uri}/card/${cardId}`;
     return this.http.get<any>(url)
   }
+
+  searchAutocomplete(searchValue: any): Observable<any> {
+    let params = new HttpParams()
+      .set('search', searchValue);
+    return this.http.get<any>(this.api_url + 'card/searchAutocomplete', { params: params })
+  }
+
+  getPrice(card: Card, setName: string){
+    let params = new HttpParams()
+      .set('setName', this.replaceSpacesAndPunctuation(setName))
+      .set('cardName', this.replaceSpacesAndPunctuation(card.name));
+      return this.http.get<any>(this.api_url + 'card/scraping', { params: params })
+  }
+
+
+
+  replaceSpacesAndPunctuation(inputString?: string): string {
+    return inputString ? inputString?.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-') : '';
+  }
 }
