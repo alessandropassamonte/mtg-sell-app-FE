@@ -22,11 +22,11 @@ export class CardService {
   }
 
 
-  search(page: number, size: number, searchForm: any): Observable<any> {
+  search(page: any, size: any, search: any): Observable<any> {
     let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString())
-      .set('search', searchForm.search.toString());
+      .set('page', page)
+      .set('size', size)
+      .set('search', search);
     return this.http.get<any>(this.api_url + 'card/search', { params: params })
   }
 

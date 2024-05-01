@@ -37,7 +37,6 @@ export class LoginFormComponent implements OnInit {
         const helper = new JwtHelperService();
 
         const decodedToken = helper.decodeToken(res.token);
-        console.log('decoded ', helper.decodeToken(res.token))
         localStorage.setItem('username', decodedToken?.sub);
 
         this.authService.setUser({

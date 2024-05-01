@@ -16,7 +16,7 @@
                 <ul class="list-group scrollable-list">
                     <li class="list-group-item" *ngFor="let item of cards">
                         <ng-template #popTemplate>
-                            <div [innerHtml]="returnHtml(item.png)"></div>
+                            <div [innerHtml]="returnHtml(item.png ? item.png : item.imageFace1 )"></div>
                         </ng-template>
                         <span [tooltip]="popTemplate">
                                 <p>{{item.printedName ? (item.printedName + ' (' + item.name + ')') : item.name}}</p>

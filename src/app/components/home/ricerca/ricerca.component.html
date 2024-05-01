@@ -11,7 +11,7 @@
       <h6>Parametri di ricerca</h6>
     </div>
     <div class="card-body">
-      <form [formGroup]="searchForm" (ngSubmit)="search()">
+      <form [formGroup]="searchForm" (ngSubmit)="search(0, 12)">
         <div class="row mb-3">
           <div class="col-sm-3">
             <div class="form-group">
@@ -20,25 +20,25 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary">CERCA</button>
+        <button type="submit" class="btn btn-primary" *ngIf="!(!searchForm.get('search')?.value || searchForm.get('search')?.value.trim() === '')">CERCA</button>
       </form>
     </div>
   </div>
 
 
 
-  <div class="card mb-4">
+  <div *ngIf="cards && cards.length > 0" class="card mb-4">
     <div class="card-header">
-      <h6>Parametri di ricerca</h6>
+      <h6>Risultati di ricerca</h6>
     </div>
-    <div class="card-body">
+    <div  class="card-body">
       <div class="row">
         <div *ngFor="let item of cards" class="col-md-3 mb-3">
           <div class="card" style="width: 18rem;">
-            <img class="card-img-top" [src]="item.png" alt="Card image cap">
+            <img class="card-img-top" [src]="item.png ? item.png : item.imageFace1" alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">
-                <a class="btn btn-primary" (click)="navigate(item.cardId)">
+                <a class="btn btn-primary" (click)="navigate(item.cardId, currentPage)">
                   {{item.printedName ? (item.printedName + ' (' + item.name + ')') : item.name}} </a>
               </h5>
               <small *ngFor="let setItem of item.editions">

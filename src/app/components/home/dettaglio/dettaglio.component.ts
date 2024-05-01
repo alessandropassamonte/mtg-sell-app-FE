@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Params, Router } from '@angular/router';
 import { Card } from 'src/app/models/card';
 import { CardService } from 'src/app/services/card.service';
 
@@ -9,15 +9,25 @@ import { CardService } from 'src/app/services/card.service';
   styleUrls: ['./dettaglio.component.scss']
 })
 export class DettaglioComponent {
-  constructor(private route: ActivatedRoute, private cardService: CardService) {}
+  constructor(private route: ActivatedRoute, private cardService: CardService, private router: Router) {}
 
 
   id!: any;
   card!: Card
+  currentImage!: any
+
+  search!: any;
+  currentPage!: any;
+  itemsPerPage!: any;
   ngOnInit() {
       this.route.params.subscribe(params => {
           this.id = params['id']; 
           this.findByCardId(params['id'])
+      });
+
+      this.route.queryParams.subscribe((params: Params) => {
+        this.search = params['search'];
+        this.currentPage = params['page'];
       });
       
   }
@@ -27,7 +37,22 @@ export class DettaglioComponent {
     this.cardService.findByCardId(cardId).subscribe({
       next: (res: any) => {
         this.card = res
+        this.currentImage = res.png ? res.png : res.imageFace1
       }
     })
   }
+
+  toggleImage() {
+    this.currentImage = this.currentImage === this.card.imageFace1 ? this.card.imageFace2 : this.card.imageFace1;
+  }
+
+
+  navigate(){
+    const navigationExtras: NavigationExtras = {
+      queryParams: { search: this.search , page: this.currentPage, itemsPerPage: this.itemsPerPage }
+    };
+    this.router.navigate(['/home/ricerca'], navigationExtras);
+  }
+
+  
 }
