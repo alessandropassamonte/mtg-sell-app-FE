@@ -27,27 +27,10 @@ export class UtenteComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getCardByUser(this.currentPage, this.itemsPerPage).subscribe({
-      next: (res: any) => {
-        this.cards = res.content
-        this.totalItems = res.totalElements
-      }
-    })
   }
 
   navigate(input: string) {
     this.router.navigate([input])
   }
 
-  pageChanged(event: PageChangedEvent): void {
-    
-      this.userService.getCardByUser((event.page - 1), event.itemsPerPage).subscribe({
-        next: (res: any) => {
-          this.cards = res.content
-          this.totalItems = res.totalElements
-        }
-      })
-    
-
-  }
 }

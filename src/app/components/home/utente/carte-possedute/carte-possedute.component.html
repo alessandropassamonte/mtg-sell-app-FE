@@ -8,23 +8,28 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>#</th>
+          <th>In Vendita</th>
           <th>Name</th>
         </tr>
       </thead>
-      <tbody *ngIf="cards.length > 0">
-        <tr *ngFor="let item of cards">
-          <td>{{ item.id }}</td>
-          <td>{{ item.name }}</td>
+      <tbody *ngIf="userCards.length > 0">
+        <tr *ngFor="let item of userCards">
+          <th scope="row">
+            <label class="control control--checkbox">
+              <input type="checkbox" (click)="changeInVendita(item)" [checked]="item.inVendita">
+              <div class="control__indicator"></div>
+            </label>
+          </th>
+          <td>{{ item.card?.printedName ? item.card?.printedName : item.card?.name }}</td>
         </tr>
       </tbody>
-      <tbody *ngIf="cards.length == 0">
+      <tbody *ngIf="userCards.length == 0">
         <tr >
           <td>Nessuna carta Posseduta</td>
         </tr>
       </tbody>
     </table>
 
-    <pagination *ngIf="cards.length > 0" [boundaryLinks]="true" [(ngModel)]="currentPage" [totalItems]="totalItems"
+    <pagination *ngIf="userCards.length > 0" [boundaryLinks]="true" [(ngModel)]="currentPage" [totalItems]="totalItems"
       [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize]=10></pagination>
   </div>

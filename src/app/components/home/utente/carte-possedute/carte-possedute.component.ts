@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { Card } from 'src/app/models/card';
+import { UserCard } from 'src/app/models/user-card';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserCardService } from 'src/app/services/user-card.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -17,16 +19,16 @@ export class CartePosseduteComponent implements OnInit {
   itemsPerPage = 12;
   totalItems!: any
 
-  cards!: Card[]; 
+  userCards!: UserCard[]; 
 
-  constructor(private authService: AuthService, private router: Router, private userService: UserService, private datePipe: DatePipe) {
+  constructor(private authService: AuthService, private router: Router, private userCardService: UserCardService, private datePipe: DatePipe) {
   }
 
 
   ngOnInit() {
-    this.userService.getCardByUser(this.currentPage, this.itemsPerPage).subscribe({
+    this.userCardService.getCardByUser(this.currentPage, this.itemsPerPage).subscribe({
       next: (res: any) => {
-        this.cards = res.content
+        this.userCards = res.content
         this.totalItems = res.totalElements
       }
     })
@@ -38,14 +40,28 @@ export class CartePosseduteComponent implements OnInit {
 
   pageChanged(event: PageChangedEvent): void {
     
-      this.userService.getCardByUser((event.page - 1), event.itemsPerPage).subscribe({
+      this.userCardService.getCardByUser((event.page - 1), event.itemsPerPage).subscribe({
         next: (res: any) => {
-          this.cards = res.content
+          this.userCards = res.content
           this.totalItems = res.totalElements
         }
       })
-    
+  }
 
+  changeInVendita(item: UserCard){
+    item.inVendita = !(item.inVendita)
+
+    this.userCardService.update(item).subscribe({
+      next: (resUpdate: any) => {
+        this.userCardService.getCardByUser(this.currentPage, this.itemsPerPage).subscribe({
+          next: (res: any) => {
+            this.userCards = res.content
+            this.totalItems = res.totalElements
+          }
+        })
+      }
+      
+    })
   }
   
 

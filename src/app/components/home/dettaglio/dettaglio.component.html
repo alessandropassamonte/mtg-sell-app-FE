@@ -13,7 +13,7 @@
 
           <div style="position: relative;">
             <img [src]="currentImage" alt="avatar" class="img-fluid" style="width: max-content;">
-            <img *ngIf="card.imageFace2" src="../../../../assets/img/icona_switch.png" alt="Switch Icon" class="switch-icon" (click)="toggleImage()" style="position: absolute; top: 85%; right: 45%;; cursor: pointer;">
+            <img *ngIf="card?.imageFace2" src="../../../../assets/img/icona_switch.png" alt="Switch Icon" class="switch-icon" (click)="toggleImage()" style="position: absolute; top: 85%; right: 45%;; cursor: pointer;">
           </div>
           <h5 class="my-3">{{ card.printedName ? (card.printedName + ' (' + card.name + ')') : card.name }}</h5>
           <p *ngFor="let setItem of card.editions" class="text-muted mb-1">

@@ -6,6 +6,7 @@ import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { Card } from 'src/app/models/card';
 import { ActivatedRoute, NavigationExtras, Params, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { UserCardService } from 'src/app/services/user-card.service';
 
 @Component({
   selector: 'app-ricerca',
@@ -20,7 +21,7 @@ export class RicercaComponent implements OnInit {
 
   cardsId: number[] = []
   constructor(private formBuilder: FormBuilder,
-    private localeService: BsLocaleService, private cardService: CardService, private router: Router, private userService: UserService, private route: ActivatedRoute) {
+    private localeService: BsLocaleService, private cardService: CardService, private router: Router, private userService: UserService, private route: ActivatedRoute, private userCardService: UserCardService) {
     this.localeService.use('it');
 
     this.searchForm = this.formBuilder.group({
@@ -99,7 +100,7 @@ export class RicercaComponent implements OnInit {
 
   aggiungiCarta(id: any){
     this.cardsId.push(id)
-    this.userService.addCardToUser(this.cardsId).subscribe({
+    this.userCardService.addCardToUser(this.cardsId).subscribe({
       next: (res: any) => {
         this.cardsId = []
       },
