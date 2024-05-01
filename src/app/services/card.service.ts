@@ -41,16 +41,8 @@ export class CardService {
     return this.http.get<any>(this.api_url + 'card/searchAutocomplete', { params: params })
   }
 
-  getPrice(card: Card, setName: string){
-    let params = new HttpParams()
-      .set('setName', this.replaceSpacesAndPunctuation(setName))
-      .set('cardName', this.replaceSpacesAndPunctuation(card.name));
-      return this.http.get<any>(this.api_url + 'card/scraping', { params: params })
+  getPrice(card: Card){
+      return this.http.post<any>(this.api_url + 'card/scraping', card)
   }
 
-
-
-  replaceSpacesAndPunctuation(inputString?: string): string {
-    return inputString ? inputString?.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-') : '';
-  }
 }

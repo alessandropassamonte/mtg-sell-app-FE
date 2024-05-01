@@ -1,35 +1,62 @@
-<div class="container" >
-    <div class="row mb-2">
-        <div class="col">
-          <a class="btn btn-primary" [routerLink]="['/home/utente']">
-            < Torna alla sezione Utente</a>
-        </div>
-      </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>In Vendita</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody *ngIf="userCards.length > 0">
-        <tr *ngFor="let item of userCards">
-          <th scope="row">
-            <label class="control control--checkbox">
-              <input type="checkbox" (click)="changeInVendita(item)" [checked]="item.inVendita">
-              <div class="control__indicator"></div>
-            </label>
-          </th>
-          <td>{{ item.card?.printedName ? item.card?.printedName : item.card?.name }}</td>
-        </tr>
-      </tbody>
-      <tbody *ngIf="userCards.length == 0">
-        <tr >
-          <td>Nessuna carta Posseduta</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <pagination *ngIf="userCards.length > 0" [boundaryLinks]="true" [(ngModel)]="currentPage" [totalItems]="totalItems"
-      [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize]=10></pagination>
+<div class="container py-5">
+  <div class="row mb-2">
+    <div class="col">
+      <a class="btn btn-primary" [routerLink]="['/home/utente']">
+        < Torna alla sezione Utente</a>
+    </div>
   </div>
+  <div class="card">
+    <div class="card-header">
+      <h6>Carte possedute</h6>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>In Vendita</th>
+            <th>Name</th>
+            <th>Edizione</th>
+            <th>Foil</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="userCards.length > 0">
+          <tr *ngFor="let item of userCards">
+            <th scope="row">
+              <label class="control control--checkbox">
+                <input type="checkbox" (click)="changeInVendita(item)" [checked]="item.inVendita">
+                <div class="control__indicator"></div>
+              </label>
+            </th>
+            <td>{{ item.card?.printedName ? item.card?.printedName + ' (' + item.card?.name + ')' : item.card?.name }}
+            </td>
+            <td>
+              <p *ngFor="let setItem of item.card?.editions" class="text-muted mb-1">
+                <img [src]="setItem.setIcon" alt="Edition" style="width: 20px; height: 20px;">
+                <span class="ms-2">{{ setItem.setName }}</span>
+              </p>
+            </td>
+            <td>
+              <label class="control control--checkbox">
+                <input type="checkbox" (click)="changeFoil(item)" [checked]="item.foil">
+                <div class="control__indicator"></div>
+              </label>
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="rimuovi(item)">Rimuovi</button>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="userCards.length == 0">
+          <tr>
+            <td>Nessuna carta Posseduta</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <pagination *ngIf="userCards.length > 0" [boundaryLinks]="true" [(ngModel)]="currentPage"
+        [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize]=10 [firstText]="'Prima'"
+        [lastText]="'Ultima'" [previousText]="'<'" [nextText]="'>'"></pagination>
+    </div>
+  </div>
+</div>

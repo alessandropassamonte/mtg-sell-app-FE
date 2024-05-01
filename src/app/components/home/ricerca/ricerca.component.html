@@ -20,7 +20,8 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary" *ngIf="!(!searchForm.get('search')?.value || searchForm.get('search')?.value.trim() === '')">CERCA</button>
+        <button type="submit" class="btn btn-primary"
+          *ngIf="!(!searchForm.get('search')?.value || searchForm.get('search')?.value.trim() === '')">CERCA</button>
       </form>
     </div>
   </div>
@@ -31,7 +32,7 @@
     <div class="card-header">
       <h6>Risultati di ricerca</h6>
     </div>
-    <div  class="card-body">
+    <div class="card-body">
       <div class="row">
         <div *ngFor="let item of cards" class="col-md-3 mb-3">
           <div class="card" style="width: 18rem;">
@@ -43,10 +44,9 @@
               </h5>
               <small *ngFor="let setItem of item.editions">
                 <div class="d-flex align-items-center">
-                  <img [src]="setItem.setIcon" alt="Edition"
-                       style="width: 40px; height: 40px;">
-                  <span class="ms-2" >{{ setItem.setName }}</span>
-              </div>
+                  <img [src]="setItem.setIcon" alt="Edition" style="width: 40px; height: 40px;">
+                  <span class="ms-2">{{ setItem.setName }}</span>
+                </div>
               </small>
               <p>{{item.printedText ? item.printedText : item.oracleText}}</p>
             </div>
@@ -58,6 +58,7 @@
 
     <div class="row justify-content-center d-flex" style="margin-left: auto; margin-right: auto;">
       <pagination [boundaryLinks]="true" [(ngModel)]="currentPage" [totalItems]="totalItems"
-        [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize]=10></pagination>
+        [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize]=10 [firstText]="'Prima'"
+        [lastText]="'Ultima'" [previousText]="'<'" [nextText]="'>'"></pagination>
     </div>
   </div>

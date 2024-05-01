@@ -51,7 +51,7 @@ export class GestioneOrdiniComponent {
   }
 
   addItem(item: Card): void {
-    this.cardService.getPrice( item, item?.editions?.[0]?.setName ?? '').subscribe({
+    this.cardService.getPrice(item).subscribe({
       next: (res: any) => {
         item.priceCM = res.price
         this.selectedItems.push(item);

@@ -26,6 +26,10 @@ export class CartePosseduteComponent implements OnInit {
 
 
   ngOnInit() {
+    this.loadCards();
+  }
+
+  loadCards() {
     this.userCardService.getCardByUser(this.currentPage, this.itemsPerPage).subscribe({
       next: (res: any) => {
         this.userCards = res.content
@@ -50,17 +54,29 @@ export class CartePosseduteComponent implements OnInit {
 
   changeInVendita(item: UserCard){
     item.inVendita = !(item.inVendita)
-
     this.userCardService.update(item).subscribe({
       next: (resUpdate: any) => {
-        this.userCardService.getCardByUser(this.currentPage, this.itemsPerPage).subscribe({
-          next: (res: any) => {
-            this.userCards = res.content
-            this.totalItems = res.totalElements
-          }
-        })
+        this.loadCards();
       }
       
+    })
+  }
+
+  changeFoil(item: UserCard){
+    item.foil = !(item.foil)
+    this.userCardService.update(item).subscribe({
+      next: (resUpdate: any) => {
+        this.loadCards();
+      }
+    })
+  }
+
+  rimuovi(item: UserCard){
+    item.attivo = false
+    this.userCardService.update(item).subscribe({
+      next: (resUpdate: any) => {
+        this.loadCards();
+      }
     })
   }
   
