@@ -25,6 +25,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm-modal.component';
 import { ConfirmOrderComponent } from './components/modals/confirm-order/confirm-order.component';
 import { ConfirmItemComponent } from './components/modals/confirm-item/confirm-item.component';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
 
 export function jwtOptionsFactory() {
@@ -67,6 +68,7 @@ registerLocaleData(localeIta);
       },
     }),
     ModalModule.forRoot(),
+    TypeaheadModule.forRoot(),
     
 
   ],

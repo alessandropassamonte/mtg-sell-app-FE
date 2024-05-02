@@ -5,7 +5,7 @@
         < Torna alla sezione Utente</a>
     </div>
     <div class="col">
-      <a class="btn btn-primary" [routerLink]="['/home/utente/ordini/form']">
+      <a class="btn btn-primary" (click)="navigate()">
         Aggiungi/Modifica Ordine</a>
     </div>
 
@@ -41,6 +41,7 @@
               {{getDate(item.orderDate)}}
             </td>
             <td>
+              <button class="btn btn-info" (click)="navigate(item)">Dettaglio</button>
               <button class="btn btn-danger">Rimuovi</button>
             </td>
           </tr>

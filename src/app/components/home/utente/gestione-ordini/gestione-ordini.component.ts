@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Route, Router } from '@angular/router';
+import { NavigationExtras, Route, Router } from '@angular/router';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { Observable, Observer, Subject, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
 import { Card } from 'src/app/models/card';
@@ -36,8 +36,27 @@ export class GestioneOrdiniComponent implements OnInit {
     })
   }
 
-  navigate(input: string) {
-    this.router.navigate([input])
+  navigate(order?: Order) {
+
+    console.log('ORDER ', order)
+    if(order){
+      const navigationExtras: NavigationExtras = {
+        state: {
+          orderItems: order.orderItems,
+          readOnly: true 
+        }
+      }
+      this.router.navigate(['/home/utente/ordini/form'], navigationExtras);
+    } else {
+      const navigationExtras: NavigationExtras = {
+        state: {
+          orderItems: [],
+          readOnly: false
+        }
+      }
+      this.router.navigate(['/home/utente/ordini/form'], navigationExtras);
+    }
+    
   }
 
   pageChanged(event: PageChangedEvent): void {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subject, catchError, debounceTime, of, switchMap } from 'rxjs';
 import { ConfirmItemComponent } from 'src/app/components/modals/confirm-item/confirm-item.component';
@@ -25,8 +25,16 @@ export class OrdineFormComponent {
   bsModalRefItem: BsModalRef | undefined;
 
   private searchSubject = new Subject<string>();
+  readOnly = false;
+  constructor(private cardService: CardService, private modalService: BsModalService, private router: Router, private route: ActivatedRoute) {
+    console.log('Route ', this.router.getCurrentNavigation()?.extras.state)
+    this.selectedItems = this.router.getCurrentNavigation()?.extras.state?.['orderItems'];
+    this.readOnly = this.router.getCurrentNavigation()?.extras.state?.['readOnly'];
+  //   this.route.params.subscribe(params => {
+  //     this.readOnly = params['readOnly']; 
+  // });
 
-  constructor(private cardService: CardService, private modalService: BsModalService, private router: Router) {
+
     this.searchSubject.pipe(
       debounceTime(1000),
       switchMap((term: string) => {

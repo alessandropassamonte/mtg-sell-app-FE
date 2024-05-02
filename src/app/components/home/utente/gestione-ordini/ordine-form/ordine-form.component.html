@@ -6,7 +6,7 @@
         </div>
     </div>
 
-    <div class="card mb-4">
+    <div class="card mb-4" *ngIf="!readOnly">
         <div class="card-header">
             <h6>Trova una carta</h6>
         </div>
@@ -29,6 +29,7 @@
                     </li>
                 </ul>
             </div>
+
         </div>
     </div>
 
@@ -77,10 +78,10 @@
         </div>
         <div class="row justify-content-end d-flex mb-3" *ngIf="selectedItems.length > 0">
             <div class="col-2">
-                <button class="btn btn-danger" (click)="selectedItems = []">Svuota ordine</button>
+                <button class="btn btn-danger" (click)="selectedItems = []" *ngIf="!readOnly">Svuota ordine</button>
             </div>
             <div class="col-2">
-                <button class="btn btn-primary" (click)="salvaOrdine()">Salva Ordine</button>
+                <button class="btn btn-primary" (click)="salvaOrdine()" *ngIf="!readOnly">Salva Ordine</button>
             </div>
 
         </div>
