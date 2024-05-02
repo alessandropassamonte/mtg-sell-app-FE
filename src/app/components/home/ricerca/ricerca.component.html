@@ -51,13 +51,13 @@
               <p>{{item.printedText ? item.printedText : item.oracleText}}</p>
             </div>
           </div>
-          <button (click)="aggiungiCarta(item.id)">Aggiungi Carta alla tua collezione</button>
+          <button (click)="confirmModalWithData(item)">Aggiungi Carta alla tua collezione</button>
         </div>
       </div>
     </div>
 
-    <div class="row justify-content-center d-flex" style="margin-left: auto; margin-right: auto;">
-      <pagination [boundaryLinks]="true" [(ngModel)]="currentPage" [totalItems]="totalItems"
+    <div class="row justify-content-center d-flex"  style="margin-left: auto; margin-right: auto;">
+      <pagination  [boundaryLinks]="true" [(ngModel)]="currentPage" [totalItems]="totalItems"
         [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize]=10 [firstText]="'Prima'"
         [lastText]="'Ultima'" [previousText]="'<'" [nextText]="'>'"></pagination>
     </div>

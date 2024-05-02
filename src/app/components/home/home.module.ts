@@ -18,9 +18,10 @@ import { CartePosseduteComponent } from './utente/carte-possedute/carte-possedut
 import { GestioneOrdiniComponent } from './utente/gestione-ordini/gestione-ordini.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { OrdineFormComponent } from './utente/gestione-ordini/ordine-form/ordine-form.component';
 
 @NgModule({
-  declarations: [HomeComponent, HomeNavComponent, HomeSearchComponent, UtenteComponent, RicercaComponent, DettaglioComponent, CartePosseduteComponent, GestioneOrdiniComponent],
+  declarations: [HomeComponent, HomeNavComponent, HomeSearchComponent, UtenteComponent, RicercaComponent, DettaglioComponent, CartePosseduteComponent, GestioneOrdiniComponent, OrdineFormComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,

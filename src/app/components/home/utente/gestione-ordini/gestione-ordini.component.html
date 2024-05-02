@@ -1,72 +1,64 @@
-<div class="container">
-    <div class="row mb-2">
-        <div class="col">
-            <a class="btn btn-primary" [routerLink]="['/home/utente']">
-                < Torna alla sezione Utente</a>
-        </div>
+<div class="container py-5">
+  <div class="row mb-2">
+    <div class="col">
+      <a class="btn btn-primary" [routerLink]="['/home/utente']">
+        < Torna alla sezione Utente</a>
+    </div>
+    <div class="col">
+      <a class="btn btn-primary" [routerLink]="['/home/utente/ordini/form']">
+        Aggiungi/Modifica Ordine</a>
     </div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h6>Trova una carta</h6>
-        </div>
-        <div class="card-body">
-            <input [(ngModel)]="searchValue" class="form-control" (input)="loadCards()">
-            <div *ngIf="cards.length > 0" class="mt-3">
-                <ul class="list-group scrollable-list">
-                    <li class="list-group-item" *ngFor="let item of cards">
-                        <ng-template #popTemplate>
-                            <div [innerHtml]="returnHtml(item.png ? item.png : item.imageFace1 )"></div>
-                        </ng-template>
-                        <span [tooltip]="popTemplate">
-                                <p>{{item.printedName ? (item.printedName + ' (' + item.name + ')') : item.name}}</p>
-                                <p *ngFor="let setItem of item.editions" class="text-muted mb-1">
-                                    <img [src]="setItem.setIcon" alt="Edition" style="width: 20px; height: 20px;">
-                                    <span class="ms-2">{{ setItem.setName }}</span>
-                                </p>
-                        </span>
-                        <button class="btn btn-primary" (click)="addItem(item)">Aggiungi all'ordine</button>
-                    </li>
-                </ul>
-            </div>
-        </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h6>I tuoi Ordini</h6>
     </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Prezzo di Vendita</th>
+            <th>Prezzo CardMarket</th>
+            <th>Data Ordine</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="orders.length > 0">
+          <tr *ngFor="let item of orders">
+            <td>
+              {{item.name}}
+            </td>
+            <td>
+              {{item.totalPrice | currency: 'EUR' }}
+            </td>
+            <td>
+              {{item.totalPriceCardMarket  | currency: 'EUR' }}
+            </td>
+            <td>
+              {{getDate(item.orderDate)}}
+            </td>
+            <td>
+              <button class="btn btn-danger">Rimuovi</button>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="!orders || orders.length == 0">
+          <tr>
+            <td>Nessuna carta Posseduta</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <pagination *ngIf="orders.length > 0 && totalItems > itemsPerPage" [boundaryLinks]="true"
+        [(ngModel)]="currentPage" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"
+        (pageChanged)="pageChanged($event)" [maxSize]=10 [firstText]="'Prima'" [lastText]="'Ultima'"
+        [previousText]="'<'" [nextText]="'>'"></pagination>
+    </div>
+  </div>
 
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h6>Lista Carte Ordine</h6>
-        </div>
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Nome Carta</th>
-                    <th>Nome Set</th>
-                    <th>Prezzo Minimo Card Market</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody *ngIf="cards.length > 0">
-                  <tr *ngFor="let item of selectedItems ; let i = index">
-                    <td>{{item.printedName ? (item.printedName + ' (' + item.name + ')') : item.name}} </td>
-                    <td><small *ngFor="let setItem of item.editions">
-                        <div class="d-flex align-items-center">
-                          <img [src]="setItem.setIcon" alt="Edition"
-                               style="width: 40px; height: 40px;">
-                          <span class="ms-2" >{{ setItem.setName }}</span>
-                      </div>
-                      </small></td>
-                    <td>{{ item.priceCM }}</td>
-                    <td><button class="btn btn-danger" (click)="removeItem(i)">Rimuovi</button></td>
-                  </tr>
-                </tbody>
-                <tbody *ngIf="cards.length == 0">
-                  <tr >
-                    <td>Nessuna carta presente</td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
-    </div>
+
 </div>

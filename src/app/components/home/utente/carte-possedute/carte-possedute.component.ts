@@ -43,7 +43,6 @@ export class CartePosseduteComponent implements OnInit {
   }
 
   pageChanged(event: PageChangedEvent): void {
-    
       this.userCardService.getCardByUser((event.page - 1), event.itemsPerPage).subscribe({
         next: (res: any) => {
           this.userCards = res.content

@@ -54,7 +54,7 @@
         </tbody>
       </table>
 
-      <pagination *ngIf="userCards.length > 0" [boundaryLinks]="true" [(ngModel)]="currentPage"
+      <pagination *ngIf="userCards.length > 0 && totalItems > itemsPerPage" [boundaryLinks]="true" [(ngModel)]="currentPage"
         [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize]=10 [firstText]="'Prima'"
         [lastText]="'Ultima'" [previousText]="'<'" [nextText]="'>'"></pagination>
     </div>

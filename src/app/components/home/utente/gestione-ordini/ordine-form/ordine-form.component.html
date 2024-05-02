@@ -1,0 +1,88 @@
+<div class="container py-5">
+    <div class="row mb-2">
+        <div class="col">
+            <a class="btn btn-primary" [routerLink]="['/home/utente/ordini']">
+                < Torna a Gestione Ordini</a>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h6>Trova una carta</h6>
+        </div>
+        <div class="card-body">
+            <input [(ngModel)]="searchValue" class="form-control" (input)="loadCards()">
+            <div *ngIf="cards.length > 0" class="mt-3">
+                <ul class="list-group scrollable-list">
+                    <li class="list-group-item" *ngFor="let item of cards">
+                        <ng-template #popTemplate>
+                            <div [innerHtml]="returnHtml(item.png ? item.png : item.imageFace1 )"></div>
+                        </ng-template>
+                        <span [tooltip]="popTemplate">
+                            <p>{{item.printedName ? (item.printedName + ' (' + item.name + ')') : item.name}}</p>
+                            <p *ngFor="let setItem of item.editions" class="text-muted mb-1">
+                                <img [src]="setItem.setIcon" alt="Edition" style="width: 20px; height: 20px;">
+                                <span class="ms-2">{{ setItem.setName }}</span>
+                            </p>
+                        </span>
+                        <button class="btn btn-primary" (click)="addItem(item)">Aggiungi all'ordine</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h6>Lista Carte Ordine</h6>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome Carta</th>
+                        <th>Nome Set</th>
+                        <th>Prezzo Vendita</th>
+                        <th>Prezzo Minimo Card Market</th>
+                        <th>Quantità</th>
+                        <th>Foil</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="selectedItems.length > 0">
+                    <tr *ngFor="let item of selectedItems ; let i = index">
+                        <td>{{item.card?.printedName ? (item.card?.printedName + ' (' + item.card?.name + ')') :
+                            item.card?.name}} </td>
+                        <td><small *ngFor="let setItem of item.card?.editions">
+                                <div class="d-flex align-items-center">
+                                    <img [src]="setItem.setIcon" alt="Edition" style="width: 40px; height: 40px;">
+                                    <span class="ms-2">{{ setItem.setName }}</span>
+                                </div>
+                            </small></td>
+                        <td>{{ item.price | currency: 'EUR' }} ({{ getPrice(item) | currency: 'EUR' }})</td>
+                        <td>{{ item.priceCM | currency: 'EUR' }} ({{ getPriceCM(item) | currency: 'EUR'}})</td>
+                        <td>{{ item.quantity}}</td>
+                        <td>{{ item.foil ? 'Sì' : 'No'}}</td>
+                        <td><button class="btn btn-danger" (click)="removeItem(i)">Rimuovi</button></td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="selectedItems && selectedItems.length === 0">
+                    <tr>
+                        <td>Nessuna carta presente</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="row justify-content-end d-flex mb-3" *ngIf="selectedItems.length > 0">
+            <div class="col-2">
+                <button class="btn btn-danger" (click)="selectedItems = []">Svuota ordine</button>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-primary" (click)="salvaOrdine()">Salva Ordine</button>
+            </div>
+
+        </div>
+    </div>
+</div>

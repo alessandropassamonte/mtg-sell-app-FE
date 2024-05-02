@@ -7,6 +7,8 @@ import { Card } from 'src/app/models/card';
 import { ActivatedRoute, NavigationExtras, Params, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UserCardService } from 'src/app/services/user-card.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-ricerca',
@@ -19,9 +21,11 @@ export class RicercaComponent implements OnInit {
 
   initializedFromQueryParams: boolean = false;
 
+  bsModalRef: BsModalRef | undefined;
+
   cardsId: number[] = []
   constructor(private formBuilder: FormBuilder,
-    private localeService: BsLocaleService, private cardService: CardService, private router: Router, private userService: UserService, private route: ActivatedRoute, private userCardService: UserCardService) {
+    private localeService: BsLocaleService, private cardService: CardService, private router: Router, private userService: UserService, private route: ActivatedRoute, private userCardService: UserCardService, private modalService: BsModalService) {
     this.localeService.use('it');
 
     this.searchForm = this.formBuilder.group({
@@ -98,15 +102,15 @@ export class RicercaComponent implements OnInit {
     this.router.navigate(['/home/dettaglio', id], navigationExtras);
   }
 
-  aggiungiCarta(id: any){
-    this.cardsId.push(id)
-    this.userCardService.addCardToUser(this.cardsId).subscribe({
-      next: (res: any) => {
-        this.cardsId = []
-      },
-      error: (error) => {
-        this.cardsId = []
-      }
+
+
+  confirmModalWithData(item: Card) {
+    const initialState = {
+      data: item
+    };
+    this.bsModalRef = this.modalService.show(ConfirmModalComponent, { initialState });
+    this.bsModalRef?.content.event.subscribe((result: any) => {
+      console.log('RISPOSTA MODALE ', result)
     })
   }
 }

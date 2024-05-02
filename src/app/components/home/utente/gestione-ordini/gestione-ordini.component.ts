@@ -1,66 +1,60 @@
+import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Route, Router } from '@angular/router';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { Observable, Observer, Subject, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
 import { Card } from 'src/app/models/card';
+import { Order } from 'src/app/models/order';
 import { CardService } from 'src/app/services/card.service';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
   selector: 'app-gestione-ordini',
   templateUrl: './gestione-ordini.component.html',
   styleUrls: ['./gestione-ordini.component.scss']
 })
-export class GestioneOrdiniComponent {
+export class GestioneOrdiniComponent implements OnInit {
+  currentPage = 0;
+  itemsPerPage = 12;
+  totalItems!: any
 
-  cards: Card[] = [];
-  searchValue!: string;
-  selected?: string;
-  errorMessage: string = '';
+  orders!: Order[]; 
+  constructor(private orderService: OrderService, private router: Router, private datePipe: DatePipe) { }
 
-  selectedItems: Card[] = []
-
-  private searchSubject = new Subject<string>();
-
-  constructor(private cardService: CardService) {
-    this.searchSubject.pipe(
-      debounceTime(1000), 
-      switchMap((term: string) => {
-        if (term.length >= 3) {
-          return this.cardService.searchAutocomplete(term).pipe(
-            catchError(err => {
-              this.errorMessage = err.message || 'Something goes wrong';
-              return of([]); 
-            })
-          );
-        } else {
-          return of([]);
-        }
-      })
-    ).subscribe((data: any[]) => {
-      this.cards = data;
-    });
+  ngOnInit(): void {
+    this.loadOrders()
   }
 
-  loadCards(): void {
-    this.searchSubject.next(this.searchValue);
-  }
-
-
-  returnHtml(image: any) {
-    return `<span class="btn-block btn-danger well-sm"> <img src="${image.toString()}" alt="avatar" class="img-fluid" style="width: max-content;"></span>`
-  }
-
-  addItem(item: Card): void {
-    this.cardService.getPrice(item).subscribe({
+  loadOrders() {
+    this.orderService.getOrdersByUser(this.currentPage, this.itemsPerPage).subscribe({
       next: (res: any) => {
-        item.priceCM = res.price
-        this.selectedItems.push(item);
+        this.orders = res.content
+        this.totalItems = res.totalElements
       }
     })
   }
 
-
-  removeItem(index: number): void {
-    this.selectedItems.splice(index, 1);
+  navigate(input: string) {
+    this.router.navigate([input])
   }
+
+  pageChanged(event: PageChangedEvent): void {
+      this.orderService.getOrdersByUser((event.page - 1), event.itemsPerPage).subscribe({
+        next: (res: any) => {
+          this.orders = res.content
+          this.orders.map(item => ({
+            ...item,
+            orderDate: this.datePipe.transform(item.orderDate, 'dd/MM/yyyy')
+          }))
+          this.totalItems = res.totalElements
+        }
+      })
+  }
+
+  getDate(date: any){
+    return this.datePipe.transform(date, 'dd/MM/yyyy HH:mm')
+  }
+  
 }

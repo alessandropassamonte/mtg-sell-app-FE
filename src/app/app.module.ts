@@ -21,7 +21,10 @@ import { NavbarComponent } from './components/layout/navbar/navbar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { AlertModule } from 'ngx-bootstrap/alert';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm-modal.component';
+import { ConfirmOrderComponent } from './components/modals/confirm-order/confirm-order.component';
+import { ConfirmItemComponent } from './components/modals/confirm-item/confirm-item.component';
 
 
 export function jwtOptionsFactory() {
@@ -41,8 +44,9 @@ registerLocaleData(localeIta);
     NavbarComponent,
     WelcomeComponent,
     FooterComponent,
-    
-
+    ConfirmModalComponent,
+    ConfirmOrderComponent,
+    ConfirmItemComponent,
   ],
   imports: [
     BsDatepickerModule.forRoot(),
@@ -62,6 +66,7 @@ registerLocaleData(localeIta);
         useFactory: jwtOptionsFactory,
       },
     }),
+    ModalModule.forRoot(),
     
 
   ],

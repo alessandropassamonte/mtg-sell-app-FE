@@ -20,11 +20,8 @@ export class UserCardService {
     return this.http.get<any>(this.api_url + 'cards', { params: params })
   }
 
-  addCardToUser(cardsId: number[]): Observable<any> {
-    let cardAddUserRequest = {
-      cardsId: cardsId
-    }
-    return this.http.post<any>(this.api_url + 'addCards', cardAddUserRequest)
+  addCardToUser(userCard: UserCard): Observable<any> {
+    return this.http.post<any>(this.api_url + 'addCards', userCard)
   }
 
   update(userCard: UserCard){
