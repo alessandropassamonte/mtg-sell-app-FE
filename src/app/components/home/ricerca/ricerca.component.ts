@@ -84,7 +84,7 @@ export class RicercaComponent implements OnInit {
     if (this.searchForm.get('search')  && !this.initializedFromQueryParams) {
       this.currentPage = (event.page - 1)
       this.itemsPerPage = event.itemsPerPage
-      this.cardService.search((event.page - 1), event.itemsPerPage, this.searchForm.value).subscribe({
+      this.cardService.search((event.page - 1), event.itemsPerPage, this.searchForm.get('search')?.value ).subscribe({
         next: (res: any) => {
           this.data = res
           this.cards = res.content
