@@ -7,10 +7,17 @@
 <div class="modal-body">
     <form [formGroup]="confirmForm" class="needs-validation">
         <div class="row m-2 mt-3">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="form-group">
-                    <input type="text" formControlName="name" id="remember-me">
+                    <input type="text" formControlName="name" class="form-control" id="remember-me">
                     <label for="remember-me">Inserisci un identificativo</label>
+                </div>
+
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input type="number" formControlName="totalPrice" class="form-control" id="totalPrice">
+                    <label for="totalPrice">Prezzo</label>
                 </div>
             </div>
         </div>

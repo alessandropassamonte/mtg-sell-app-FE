@@ -29,23 +29,13 @@ export class ConfirmOrderComponent {
   constructor(public bsModalRef: BsModalRef, private orderService: OrderService, private fb: FormBuilder, private toast: ToastrService, private router: Router) {
     this.confirmForm = this.fb.group({
       name: ['', [Validators.required]],
+      totalPrice: ['', [Validators.required]],
     })
   }
 
   ngOnInit() {
-  }
 
-  confirm(): void {
-    this.salvaOrdine();
-  }
-
-  decline(): void {
-    this.bsModalRef?.hide();
-  }
-
-  salvaOrdine() {
     let order: Order = this.data
-    order.name = this.confirmForm.get('name')?.value
     if (order.orderItems) {
       order.totalPrice = order.orderItems.reduce((total, item) => {
         if (item.price !== undefined) {
@@ -64,7 +54,41 @@ export class ConfirmOrderComponent {
       }, 0);
     }
 
-    console.log('ORDINE ', order)
+    this.confirmForm.patchValue({
+      totalPrice: order.totalPrice
+    })
+  }
+
+  confirm(): void {
+    this.salvaOrdine();
+  }
+
+  decline(): void {
+    this.bsModalRef?.hide();
+  }
+
+  salvaOrdine() {
+    let order: Order = this.data
+    order.name = this.confirmForm.get('name')?.value
+    // if (order.orderItems) {
+    //   order.totalPrice = order.orderItems.reduce((total, item) => {
+    //     if (item.price !== undefined) {
+    //       return total + item.price;
+    //     } else {
+    //       return total;
+    //     }
+    //   }, 0);
+
+    //   order.totalPriceCardMarket = order.orderItems.reduce((total, item) => {
+    //     if (item.priceCM !== undefined) {
+    //       return total + item.priceCM;
+    //     } else {
+    //       return total;
+    //     }
+    //   }, 0);
+    // }
+
+    // console.log('ORDINE ', order)
     
     this.orderService.save(order).subscribe({
       next: (res: any) => {
