@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from '../../models/user';
-import { faEdit, faSearch, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from 'src/app/services/user.service';
 import { DatePipe } from '@angular/common';
 import { Card } from 'src/app/models/card';
@@ -18,15 +18,20 @@ import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 })
 export class UtenteComponent implements OnInit {
 
-  currentPage = 0;
-  itemsPerPage = 12;
-  totalItems!: any
+  user: any
 
-  cards!: Card[]; 
+  faArrowAltCircleRight = faArrowAltCircleRight;
+  faArrowAltCircleLeft = faArrowAltCircleLeft;
   constructor(private authService: AuthService, private router: Router, private userService: UserService, private datePipe: DatePipe) {
   }
 
   ngOnInit() {
+
+    this.userService.getUserInSession().subscribe({
+      next: (res: any) => {
+        this.user= res
+      }
+    })
   }
 
   navigate(input: string) {

@@ -27,6 +27,7 @@ import { ConfirmOrderComponent } from './components/modals/confirm-order/confirm
 import { ConfirmItemComponent } from './components/modals/confirm-item/confirm-item.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { ConfirmStandardComponent } from './components/modals/confirm-standard/confirm-standard.component';
 
 
 export function jwtOptionsFactory() {
@@ -49,6 +50,7 @@ registerLocaleData(localeIta);
     ConfirmModalComponent,
     ConfirmOrderComponent,
     ConfirmItemComponent,
+    ConfirmStandardComponent,
   ],
   imports: [
     BsDatepickerModule.forRoot(),

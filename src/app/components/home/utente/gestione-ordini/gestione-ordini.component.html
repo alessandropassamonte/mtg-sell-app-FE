@@ -2,7 +2,7 @@
   <div class="row mb-2">
     <div class="col">
       <a class="btn btn-primary" [routerLink]="['/home/utente']">
-        < Torna alla sezione Utente</a>
+        <fa-icon [icon]="faArrowAltCircleLeft" ></fa-icon> Torna alla sezione Utente</a>
     </div>
     <div class="col-2">
       <a class="btn btn-primary" (click)="navigate()">
@@ -27,7 +27,7 @@
               <th>Action</th>
             </tr>
           </thead>
-          <tbody *ngIf="orders.length > 0">
+          <tbody *ngIf="orders && orders.length > 0">
             <tr *ngFor="let item of orders">
               <td>
                 {{item.name}}
@@ -42,12 +42,12 @@
                 {{getDate(item.orderDate)}}
               </td>
               <td>
-                <button class="btn btn-info" (click)="navigate(item)">Dettaglio</button>
-                <button class="btn btn-danger">Rimuovi</button>
+                <button class="btn btn-info" (click)="navigate(item)"tooltip="Dettaglio"><fa-icon  [icon]="faInfoCircle" [size]="'1x'"></fa-icon></button>
+                <button class="btn btn-danger" (click)="delete(item)" tooltip="Elimina"> <fa-icon  [icon]="faTrash" [size]="'1x'"></fa-icon></button>
               </td>
             </tr>
           </tbody>
-          <tbody *ngIf="!orders || orders.length == 0">
+          <tbody *ngIf="orders && orders.length == 0">
             <tr>
               <td>Nessuna carta Posseduta</td>
             </tr>
@@ -55,7 +55,7 @@
         </table>
       </div>
 
-      <pagination *ngIf="orders.length > 0 && totalItems > itemsPerPage" [boundaryLinks]="true"
+      <pagination *ngIf=" orders && orders.length > 0 && totalItems > itemsPerPage" [boundaryLinks]="true"
         [(ngModel)]="currentPage" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"
         (pageChanged)="pageChanged($event)" [maxSize]=10 [firstText]="'Prima'" [lastText]="'Ultima'"
         [previousText]="'<'" [nextText]="'>'"></pagination>

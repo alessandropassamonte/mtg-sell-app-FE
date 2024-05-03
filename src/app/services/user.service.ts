@@ -14,7 +14,7 @@ export class UserService {
 
 
   getUserInSession(): Observable<any> {
-    return this.http.get<any>(this.api_url + 'userinsession')
+    return this.http.get<any>(this.api_url + 'userInSession')
   }
 
   getUserRole(): Observable<any> {

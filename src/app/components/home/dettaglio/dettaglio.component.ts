@@ -4,6 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Card } from 'src/app/models/card';
 import { CardService } from 'src/app/services/card.service';
 import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
+import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-dettaglio',
@@ -23,6 +24,8 @@ export class DettaglioComponent {
   itemsPerPage!: any;
 
   bsModalRef: BsModalRef | undefined;
+
+  faArrowAltCircleLeft = faArrowAltCircleLeft;
   ngOnInit() {
       this.route.params.subscribe(params => {
           this.id = params['id']; 
@@ -64,7 +67,6 @@ export class DettaglioComponent {
     };
     this.bsModalRef = this.modalService.show(ConfirmModalComponent, { initialState });
     this.bsModalRef?.content.event.subscribe((result: any) => {
-      console.log('RISPOSTA MODALE ', result)
     })
   }
 

@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { UserCardService } from 'src/app/services/user-card.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
+import { faArrowAltCircleLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-ricerca',
@@ -22,6 +23,9 @@ export class RicercaComponent implements OnInit {
   initializedFromQueryParams: boolean = false;
 
   bsModalRef: BsModalRef | undefined;
+  faArrowAltCircleLeft = faArrowAltCircleLeft;
+
+  faSearch = faSearch;
 
   cardsId: number[] = []
   constructor(private formBuilder: FormBuilder,
@@ -110,7 +114,6 @@ export class RicercaComponent implements OnInit {
     };
     this.bsModalRef = this.modalService.show(ConfirmModalComponent, { initialState });
     this.bsModalRef?.content.event.subscribe((result: any) => {
-      console.log('RISPOSTA MODALE ', result)
     })
   }
 }

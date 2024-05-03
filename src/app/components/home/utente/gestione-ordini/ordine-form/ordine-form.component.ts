@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { faArrowAltCircleLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Observable, OperatorFunction, Subject, catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
 import { ConfirmItemComponent } from 'src/app/components/modals/confirm-item/confirm-item.component';
@@ -25,6 +26,9 @@ export class OrdineFormComponent {
   selectedItems: OrderItem[] = []
   bsModalRef: BsModalRef | undefined;
   bsModalRefItem: BsModalRef | undefined;
+
+  faArrowAltCircleLeft = faArrowAltCircleLeft;
+  faTrash = faTrash;
 
   private searchSubject = new Subject<string>();
   readOnly = false;
@@ -98,10 +102,9 @@ export class OrdineFormComponent {
     };
     this.bsModalRef = this.modalService.show(ConfirmOrderComponent, { initialState });
     this.bsModalRef?.content.event.subscribe((result: any) => {
-      if(result){
+      if(result.data){
         this.navigate()
       }
-      
     })
   }
 

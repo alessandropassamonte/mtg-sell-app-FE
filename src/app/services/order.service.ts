@@ -23,4 +23,10 @@ export class OrderService {
     return this.http.post<any>(this.api_url + 'save', order)
   }
 
+  deleteById(orderId: any): Observable<any> {
+    let params = new HttpParams()
+      .set('orderId', orderId)
+    return this.http.delete<any>(this.api_url + 'delete', { params: params })
+  }
+
 }

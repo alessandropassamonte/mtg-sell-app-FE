@@ -2,7 +2,7 @@
   <div class="row mb-2">
     <div class="col">
       <a class="btn btn-primary" [routerLink]="['/home']">
-        < Torna alla Home</a>
+        <fa-icon [icon]="faArrowAltCircleLeft" ></fa-icon> Torna alla Home</a>
     </div>
   </div>
 
@@ -21,7 +21,7 @@
           </div>
         </div>
         <button type="submit" class="btn btn-primary"
-          *ngIf="!(!searchForm.get('search')?.value || searchForm.get('search')?.value.trim() === '')">CERCA</button>
+          *ngIf="!(!searchForm.get('search')?.value || searchForm.get('search')?.value.trim() === '')"><fa-icon [icon]="faSearch" ></fa-icon> CERCA</button>
       </form>
     </div>
   </div>

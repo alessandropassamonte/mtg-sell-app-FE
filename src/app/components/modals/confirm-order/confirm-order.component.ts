@@ -70,25 +70,6 @@ export class ConfirmOrderComponent {
   salvaOrdine() {
     let order: Order = this.data
     order.name = this.confirmForm.get('name')?.value
-    // if (order.orderItems) {
-    //   order.totalPrice = order.orderItems.reduce((total, item) => {
-    //     if (item.price !== undefined) {
-    //       return total + item.price;
-    //     } else {
-    //       return total;
-    //     }
-    //   }, 0);
-
-    //   order.totalPriceCardMarket = order.orderItems.reduce((total, item) => {
-    //     if (item.priceCM !== undefined) {
-    //       return total + item.priceCM;
-    //     } else {
-    //       return total;
-    //     }
-    //   }, 0);
-    // }
-
-    // console.log('ORDINE ', order)
     
     this.orderService.save(order).subscribe({
       next: (res: any) => {

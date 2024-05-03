@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { faArrowAltCircleLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { Card } from 'src/app/models/card';
 import { UserCard } from 'src/app/models/user-card';
@@ -20,7 +21,8 @@ export class CartePosseduteComponent implements OnInit {
   totalItems!: any
 
   userCards!: UserCard[]; 
-
+  faArrowAltCircleLeft = faArrowAltCircleLeft;
+  faTrash = faTrash;
   constructor(private authService: AuthService, private router: Router, private userCardService: UserCardService, private datePipe: DatePipe) {
   }
 
