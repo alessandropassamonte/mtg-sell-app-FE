@@ -73,7 +73,8 @@
                             <td>{{ item.priceCM | currency: 'EUR' }} ({{ getPriceCM(item) | currency: 'EUR'}})</td>
                             <td>{{ item.quantity}}</td>
                             <td>{{ item.foil ? 'Sì' : 'No'}}</td>
-                            <td><button *ngIf="!readOnly" class="btn btn-danger" (click)="removeItem(i)"  tooltip="Elimina"> <fa-icon  [icon]="faTrash" [size]="'1x'"></fa-icon></button></td>
+                            <td><button *ngIf="!readOnly" class="btn btn-danger" (click)="removeItem(i)" [popover]="'Elimina'"
+                                triggers="mouseenter:mouseleave"> <fa-icon  [icon]="faTrash" [size]="'1x'"></fa-icon></button></td>
                         </tr>
                     </tbody>
                     <tbody *ngIf="selectedItems && selectedItems.length === 0">

@@ -48,6 +48,7 @@ body {
   display: none
 }
 
+
 .contenitore-padre {
   position: relative;
   overflow: visible;
@@ -61,9 +62,10 @@ body {
   z-index: 9000 !important;
   width: 95%;
   z-index: 1000;
-}
+}  
 
 .tooltip{
   position: fixed !important;
 }
+
 

@@ -42,8 +42,10 @@
                 {{getDate(item.orderDate)}}
               </td>
               <td>
-                <button class="btn btn-info" (click)="navigate(item)"tooltip="Dettaglio"><fa-icon  [icon]="faInfoCircle" [size]="'1x'"></fa-icon></button>
-                <button class="btn btn-danger" (click)="delete(item)" tooltip="Elimina"> <fa-icon  [icon]="faTrash" [size]="'1x'"></fa-icon></button>
+                <button class="btn btn-info" (click)="navigate(item)" [popover]="'Dettaglio'"
+                triggers="mouseenter:mouseleave"><fa-icon  [icon]="faInfoCircle" [size]="'1x'"></fa-icon></button>
+                <button class="btn btn-danger" (click)="delete(item)" [popover]="'Elimina'"
+                triggers="mouseenter:mouseleave"> <fa-icon  [icon]="faTrash" [size]="'1x'"></fa-icon></button>
               </td>
             </tr>
           </tbody>

@@ -44,7 +44,8 @@
                 </label>
               </td>
               <td>
-                <button class="btn btn-danger" (click)="rimuovi(item)" tooltip="Elimina"> <fa-icon  [icon]="faTrash" [size]="'1x'"></fa-icon></button>
+                <button class="btn btn-danger" (click)="rimuovi(item)" [popover]="'Elimina'"
+                triggers="mouseenter:mouseleave" > <fa-icon  [icon]="faTrash" [size]="'1x'"></fa-icon></button>
               </td>
             </tr>
           </tbody>
