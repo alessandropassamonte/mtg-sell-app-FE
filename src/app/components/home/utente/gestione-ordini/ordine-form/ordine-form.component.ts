@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Subject, catchError, debounceTime, of, switchMap } from 'rxjs';
+import { Observable, OperatorFunction, Subject, catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
 import { ConfirmItemComponent } from 'src/app/components/modals/confirm-item/confirm-item.component';
 import { ConfirmOrderComponent } from 'src/app/components/modals/confirm-order/confirm-order.component';
 import { Card } from 'src/app/models/card';
@@ -26,14 +28,22 @@ export class OrdineFormComponent {
 
   private searchSubject = new Subject<string>();
   readOnly = false;
-  constructor(private cardService: CardService, private modalService: BsModalService, private router: Router, private route: ActivatedRoute) {
-    console.log('Route ', this.router.getCurrentNavigation()?.extras.state)
+
+
+  @ViewChild('card')
+  insideElementProf!: ElementRef;
+
+
+
+  constructor(private cardService: CardService, private modalService: BsModalService,private renderer: Renderer2, private router: Router, private route: ActivatedRoute, @Inject(DOCUMENT) private document: any) {
+    this.renderer.listen('window', 'click', (e: Event) => {
+      if (this.insideElementProf && e.target !== this.insideElementProf.nativeElement && !(<Element>e.target).classList.contains('ngx-spinner-overlay')) {
+        this.closeCards();
+      }
+    })
+
     this.selectedItems = this.router.getCurrentNavigation()?.extras.state?.['orderItems'];
     this.readOnly = this.router.getCurrentNavigation()?.extras.state?.['readOnly'];
-  //   this.route.params.subscribe(params => {
-  //     this.readOnly = params['readOnly']; 
-  // });
-
 
     this.searchSubject.pipe(
       debounceTime(1000),
@@ -54,13 +64,18 @@ export class OrdineFormComponent {
     });
   }
 
+  closeCards(){
+    this.searchValue = ''
+    this.cards = []
+  }
+
   loadCards(): void {
     this.searchSubject.next(this.searchValue);
   }
 
 
   returnHtml(image: any) {
-    return `<span class="btn-block btn-danger well-sm"> <img src="${image.toString()}" alt="avatar" class="img-fluid" style="width: max-content;"></span>`
+    return `<span class="btn-block btn-danger well-sm" > <img src="${image.toString()}" alt="avatar" class="img-fluid" ></span>`
   }
 
   addItem(item: Card): void {
@@ -106,4 +121,9 @@ export class OrdineFormComponent {
   removeItem(index: number): void {
     this.selectedItems.splice(index, 1);
   }
+
+
+
+
+
 }

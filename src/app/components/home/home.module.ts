@@ -19,6 +19,7 @@ import { GestioneOrdiniComponent } from './utente/gestione-ordini/gestione-ordin
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { OrdineFormComponent } from './utente/gestione-ordini/ordine-form/ordine-form.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [HomeComponent, HomeNavComponent, HomeSearchComponent, UtenteComponent, RicercaComponent, DettaglioComponent, CartePosseduteComponent, GestioneOrdiniComponent, OrdineFormComponent],
@@ -32,7 +33,7 @@ import { OrdineFormComponent } from './utente/gestione-ordini/ordine-form/ordine
     BsDatepickerModule,
     PaginationModule,
     TypeaheadModule,
-    TooltipModule
+    TooltipModule,
   ]
 })
 export class HomeModule { }

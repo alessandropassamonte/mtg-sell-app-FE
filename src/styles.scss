@@ -47,3 +47,23 @@ body {
 .leaflet-bottom{
   display: none
 }
+
+.contenitore-padre {
+  position: relative;
+  overflow: visible;
+}
+
+.ui-autocomplete {
+  position: absolute;
+  overflow-y: scroll;
+  height: auto !important;
+  max-height: 210px;
+  z-index: 9000 !important;
+  width: 95%;
+  z-index: 1000;
+}
+
+.tooltip{
+  position: fixed !important;
+}
+

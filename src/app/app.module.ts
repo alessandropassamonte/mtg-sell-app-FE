@@ -26,6 +26,7 @@ import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm
 import { ConfirmOrderComponent } from './components/modals/confirm-order/confirm-order.component';
 import { ConfirmItemComponent } from './components/modals/confirm-item/confirm-item.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 
 export function jwtOptionsFactory() {
@@ -69,7 +70,6 @@ registerLocaleData(localeIta);
     }),
     ModalModule.forRoot(),
     TypeaheadModule.forRoot(),
-    
 
   ],
   providers: [
