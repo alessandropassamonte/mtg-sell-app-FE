@@ -6,5 +6,6 @@ export class UserCard {
     attivo?: boolean;
     foil?: boolean;
     card?: Card;
+    lang?: string;
     date?: Date;
 }

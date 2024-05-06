@@ -47,8 +47,6 @@ export class GestioneOrdiniComponent implements OnInit {
   }
 
   navigate(order?: Order) {
-
-    console.log('ORDER ', order)
     if (order) {
       const navigationExtras: NavigationExtras = {
         state: {
@@ -88,7 +86,13 @@ export class GestioneOrdiniComponent implements OnInit {
 
   delete(order: Order) {
     if (order) {
-      this.bsModalRef = this.modalService.show(ConfirmStandardComponent);
+      const initialState = {
+        data: {
+          title: 'Rimuovi Ordine',
+          domanda: 'Sei sicuro di vore rimuovere questo Ordine?'
+        }
+      };
+      this.bsModalRef = this.modalService.show(ConfirmStandardComponent, { initialState });
       this.bsModalRef?.content.event.subscribe((result: any) => {
         if (result.data) {
           this.orderService.deleteById(order.id).subscribe({

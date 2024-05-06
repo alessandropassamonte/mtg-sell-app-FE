@@ -40,8 +40,11 @@ export class CartePosseduteComponent implements OnInit {
     })
   }
 
-  navigate(input: string) {
-    this.router.navigate([input])
+  returnHtml(image: any) {
+    return `<span class="btn-block btn-danger well-sm" > <img src="${image.toString()}" alt="avatar" class="img-fluid" ></span>`
+  }
+  navigate() {
+    this.router.navigate(['/home/utente/carte/aggiungi'])
   }
 
   pageChanged(event: PageChangedEvent): void {

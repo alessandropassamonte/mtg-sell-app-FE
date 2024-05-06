@@ -24,7 +24,17 @@ export class UserCardService {
     return this.http.post<any>(this.api_url + 'addCards', userCard)
   }
 
+  addAllToUser(userCards: UserCard[]): Observable<any> {
+    return this.http.post<any>(this.api_url + 'addAll', userCards)
+  }
+
   update(userCard: UserCard){
     return this.http.post<any>(this.api_url + 'update', userCard)
+  }
+
+  searchAutocomplete(searchValue: any): Observable<any> {
+    let params = new HttpParams()
+      .set('search', searchValue);
+    return this.http.get<any>(this.api_url + 'searchAutocomplete', { params: params })
   }
 }

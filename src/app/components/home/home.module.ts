@@ -21,9 +21,10 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { OrdineFormComponent } from './utente/gestione-ordini/ordine-form/ordine-form.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { CartePosseduteFormComponent } from './utente/carte-possedute/carte-possedute-form/carte-possedute-form.component';
 
 @NgModule({
-  declarations: [HomeComponent, HomeNavComponent, HomeSearchComponent, UtenteComponent, RicercaComponent, DettaglioComponent, CartePosseduteComponent, GestioneOrdiniComponent, OrdineFormComponent],
+  declarations: [HomeComponent, HomeNavComponent, HomeSearchComponent, UtenteComponent, RicercaComponent, DettaglioComponent, CartePosseduteComponent, GestioneOrdiniComponent, OrdineFormComponent, CartePosseduteFormComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,

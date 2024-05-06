@@ -2,7 +2,11 @@
   <div class="row mb-2">
     <div class="col">
       <a class="btn btn-primary" [routerLink]="['/home/utente']">
-        <fa-icon [icon]="faArrowAltCircleLeft" ></fa-icon> Torna alla sezione Utente</a>
+        <fa-icon [icon]="faArrowAltCircleLeft"></fa-icon> Torna alla sezione Utente</a>
+    </div>
+    <div class="col-2">
+      <a class="btn btn-primary" (click)="navigate()">
+        Aggiungi Carte</a>
     </div>
   </div>
   <div class="card">
@@ -18,12 +22,18 @@
               <th>Name</th>
               <th>Edizione</th>
               <th>Foil</th>
+              <th>Lingua</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody *ngIf="userCards && userCards.length > 0">
-            <tr *ngFor="let item of userCards">
-              <th scope="row">
+
+            <tr *ngFor="let item of userCards" [tooltip]="popTemplate">
+              <ng-template #popTemplate>
+                <div [innerHtml]="returnHtml(item.card?.png ? item.card?.png : item.card?.imageFace1 )"></div>
+              </ng-template>
+              <th scope="row" >
+                
                 <label class="control control--checkbox">
                   <input type="checkbox" (click)="changeInVendita(item)" [checked]="item.inVendita">
                   <div class="control__indicator"></div>
@@ -44,8 +54,12 @@
                 </label>
               </td>
               <td>
+                {{item.lang}}
+              </td>
+
+              <td>
                 <button class="btn btn-danger" (click)="rimuovi(item)" [popover]="'Elimina'"
-                triggers="mouseenter:mouseleave" > <fa-icon  [icon]="faTrash" [size]="'1x'"></fa-icon></button>
+                  triggers="mouseenter:mouseleave"> <fa-icon [icon]="faTrash" [size]="'1x'"></fa-icon></button>
               </td>
             </tr>
           </tbody>

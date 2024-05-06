@@ -1,30 +1,33 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faArrowAltCircleLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Observable, OperatorFunction, Subject, catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, catchError, debounceTime, of, switchMap } from 'rxjs';
+import { ConfirmCardsPosseduteComponent } from 'src/app/components/modals/confirm-cards-possedute/confirm-cards-possedute.component';
 import { ConfirmItemComponent } from 'src/app/components/modals/confirm-item/confirm-item.component';
-import { ConfirmOrderComponent } from 'src/app/components/modals/confirm-order/confirm-order.component';
+import { ConfirmModalComponent } from 'src/app/components/modals/confirm-modal/confirm-modal.component';
+import { ConfirmStandardComponent } from 'src/app/components/modals/confirm-standard/confirm-standard.component';
 import { Card } from 'src/app/models/card';
-import { Order } from 'src/app/models/order';
 import { OrderItem } from 'src/app/models/order-item';
+import { UserCard } from 'src/app/models/user-card';
 import { CardService } from 'src/app/services/card.service';
 import { UserCardService } from 'src/app/services/user-card.service';
 
 @Component({
-  selector: 'app-ordine-form',
-  templateUrl: './ordine-form.component.html',
-  styleUrls: ['./ordine-form.component.scss']
+  selector: 'app-carte-possedute-form',
+  templateUrl: './carte-possedute-form.component.html',
+  styleUrls: ['./carte-possedute-form.component.scss']
 })
-export class OrdineFormComponent {
+export class CartePosseduteFormComponent {
+
   cards: Card[] = [];
   searchValue!: string;
   selected?: string;
   errorMessage: string = '';
 
-  selectedItems: OrderItem[] = []
+  selectedItems: UserCard[] = []
   bsModalRef: BsModalRef | undefined;
   bsModalRefItem: BsModalRef | undefined;
 
@@ -40,21 +43,18 @@ export class OrdineFormComponent {
 
 
 
-  constructor(private userCardService: UserCardService, private modalService: BsModalService,private renderer: Renderer2, private router: Router, private route: ActivatedRoute, @Inject(DOCUMENT) private document: any) {
+  constructor(private cardService: CardService, private userCardService: UserCardService, private modalService: BsModalService,private renderer: Renderer2, private router: Router, private route: ActivatedRoute, @Inject(DOCUMENT) private document: any,private toast: ToastrService) {
     this.renderer.listen('window', 'click', (e: Event) => {
       if (this.insideElementProf && e.target !== this.insideElementProf.nativeElement && !(<Element>e.target).classList.contains('ngx-spinner-overlay')) {
         this.closeCards();
       }
     })
 
-    this.selectedItems = this.router.getCurrentNavigation()?.extras.state?.['orderItems'];
-    this.readOnly = this.router.getCurrentNavigation()?.extras.state?.['readOnly'];
-
     this.searchSubject.pipe(
       debounceTime(1000),
       switchMap((term: string) => {
         if (term.length >= 3) {
-          return this.userCardService.searchAutocomplete(term).pipe(
+          return this.cardService.searchAutocomplete(term).pipe(
             catchError(err => {
               this.errorMessage = err.message || 'Something goes wrong';
               return of([]);
@@ -84,33 +84,42 @@ export class OrdineFormComponent {
   }
 
   addItem(item: Card): void {
-    let orderItem: OrderItem = new OrderItem;
-    orderItem.card = item
     const initialState = {
-      data: orderItem
+      data: {
+        card: item,
+        aggiuntaSingola: true
+      }
     };
-    this.bsModalRefItem = this.modalService.show(ConfirmItemComponent, { initialState });
+    this.bsModalRefItem = this.modalService.show(ConfirmModalComponent, { initialState });
     this.bsModalRefItem?.content.event.subscribe((result: any) => {
+      console.log('RESULT  ', result.data)
       this.selectedItems.push(result.data);
     })
   }
 
-  salvaOrdine() {
-    let order: Order = new Order()
-    order.orderItems = this.selectedItems
+  salvaCards() {
     const initialState = {
-      data: order
+      data: {
+        title: 'Aggiungi Carte',
+        domanda: 'Sei sicuro di aggiungere queste carte?'
+      }
     };
-    this.bsModalRef = this.modalService.show(ConfirmOrderComponent, { initialState });
+    this.bsModalRef = this.modalService.show(ConfirmStandardComponent, { initialState });
     this.bsModalRef?.content.event.subscribe((result: any) => {
-      if(result.data){
-        this.navigate()
+      if (result.data) {
+        this.userCardService.addAllToUser(this.selectedItems).subscribe({
+          next: (res: any) => {
+
+            this.toast.clear()
+            this.toast.success('Carte inserite con successo')
+          }
+        })
       }
     })
   }
 
   navigate() {
-    this.router.navigate(['/home/utente/ordini']);
+    this.router.navigate(['/home/utente/carte']);
   }
 
   getPrice(item: any) {
@@ -125,9 +134,6 @@ export class OrdineFormComponent {
   removeItem(index: number): void {
     this.selectedItems.splice(index, 1);
   }
-
-
-
 
 
 }

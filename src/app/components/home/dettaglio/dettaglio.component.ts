@@ -63,7 +63,10 @@ export class DettaglioComponent {
 
   confirmModalWithData(item: Card) {
     const initialState = {
-      data: item
+      data: {
+        card: item,
+        aggiuntaSingola: false
+      }
     };
     this.bsModalRef = this.modalService.show(ConfirmModalComponent, { initialState });
     this.bsModalRef?.content.event.subscribe((result: any) => {

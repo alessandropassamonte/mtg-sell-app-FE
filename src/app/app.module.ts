@@ -28,6 +28,7 @@ import { ConfirmItemComponent } from './components/modals/confirm-item/confirm-i
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ConfirmStandardComponent } from './components/modals/confirm-standard/confirm-standard.component';
+import { ConfirmCardsPosseduteComponent } from './components/modals/confirm-cards-possedute/confirm-cards-possedute.component';
 
 
 export function jwtOptionsFactory() {
@@ -51,6 +52,7 @@ registerLocaleData(localeIta);
     ConfirmOrderComponent,
     ConfirmItemComponent,
     ConfirmStandardComponent,
+    ConfirmCardsPosseduteComponent,
   ],
   imports: [
     BsDatepickerModule.forRoot(),

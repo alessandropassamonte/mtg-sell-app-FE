@@ -68,4 +68,16 @@ body {
   position: fixed !important;
 }
 
+::ng-deep .tooltip-350 ~ .tooltip .tooltip-inner {
+  max-width: 350px;
+  min-width: 350px;
+  z-index: 9999 !important;
+  position: absolute !important;
+}
+
+.img-fluid {
+  max-width: 250px !important;
+}
+
+
 

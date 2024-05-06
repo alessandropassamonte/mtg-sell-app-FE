@@ -23,39 +23,45 @@ export class ConfirmModalComponent {
   @Output() event: EventEmitter<any> = new EventEmitter();
 
 
-  @Input() data!: Card;
- 
+  @Input() data!: any;
+
   constructor(public bsModalRef: BsModalRef, private userCardService: UserCardService, private fb: FormBuilder, private toast: ToastrService) {
     this.confirmForm = this.fb.group({
       attivo: [true, [Validators.required]],
       foil: [false, [Validators.required]],
       inVendita: [false, [Validators.required]],
+      lang: ['en', [Validators.required]],
     })
   }
- 
+
   ngOnInit() {
   }
 
   confirm(): void {
-    this.aggiungiCarta();
-    
+    console.log('data ', this.data)
+    if (this.data.aggiuntaSingola)
+      this.aggiungiCartaPosseduta()
+    else
+      this.aggiungiCarta();
+
+
   }
- 
+
   decline(): void {
     this.bsModalRef?.hide();
   }
 
-  aggiungiCarta(){
-    let userCard: UserCard = this.buildUSerCard(this.data)
+  aggiungiCarta() {
+    let userCard: UserCard = this.buildUSerCard(this.data.card)
     this.userCardService.addCardToUser(userCard).subscribe({
       next: (res: any) => {
-        this.event.emit({data: {message: 'Inserito con successo'}});
+        this.event.emit({ data: {} });
         this.bsModalRef?.hide();
         this.toast.clear()
         this.toast.success('Carta aggiunta con successo')
       },
       error: (error) => {
-        this.event.emit({data: {message: 'Errore'}});
+        this.event.emit({ data: { message: 'Errore' } });
         this.bsModalRef?.hide();
         this.toast.clear()
         this.toast.warning('Errore durante l\'inserimento')
@@ -63,13 +69,19 @@ export class ConfirmModalComponent {
     })
   }
 
-  buildUSerCard(card: Card): UserCard{
+  aggiungiCartaPosseduta() {
+    let userCard = this.buildUSerCard(this.data.card)
+    this.event.emit({ data: userCard });
+    this.bsModalRef?.hide();
+  }
+
+  buildUSerCard(card: Card): UserCard {
     let userCard: UserCard = new UserCard();
     userCard.card = card
     userCard.foil = this.confirmForm.get('foil')?.value
     userCard.inVendita = this.confirmForm.get('inVendita')?.value
     userCard.attivo = this.confirmForm.get('attivo')?.value
-
+    userCard.lang = this.confirmForm.get('lang')?.value
     return userCard;
   }
 }
