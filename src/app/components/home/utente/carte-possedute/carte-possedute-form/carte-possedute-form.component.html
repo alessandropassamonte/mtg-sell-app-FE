@@ -12,7 +12,7 @@
         </div>
         <div class="card-body">
             <div class="mb-3" style="position: relative;">
-                <label for="prof" class="form-label">Trova una carta Carta *</label>
+                <label for="prof" class="form-label">Trova una Carta *</label>
                 <input type="text" #professione [(ngModel)]="searchValue" (input)="loadCards()" class="form-control "
                     autocomplete="off">
                 <div #card class="contenitore-padre" id="i" *ngIf="cards && cards.length > 0 ">
@@ -23,7 +23,7 @@
                                     <div [innerHtml]="returnHtml(item.png ? item.png : item.imageFace1 )"></div>
                                 </ng-template>
                                 <span class=" tooltip-350" [tooltip]="popTemplate">
-                                    <p>{{item.printedName ? (item.printedName + ' (' + item.name + ')') : item.name}}
+                                    <p>{{(item.printedName ? (item.printedName + ' (' + item.name + ')') : item.name) + ' - ' + item.lang}}
                                     </p>
                                     <p *ngFor="let setItem of item.editions" class="text-muted mb-1">
                                         <img [src]="setItem.setIcon" alt="Edition" style="width: 20px; height: 20px;">
