@@ -23,6 +23,7 @@
               <th>Edizione</th>
               <th>Foil</th>
               <th>Lingua</th>
+              <th>Quantità</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -32,8 +33,8 @@
               <ng-template #popTemplate>
                 <div [innerHtml]="returnHtml(item.card?.png ? item.card?.png : item.card?.imageFace1 )"></div>
               </ng-template>
-              <th scope="row" >
-                
+              <th scope="row">
+
                 <label class="control control--checkbox">
                   <input type="checkbox" (click)="changeInVendita(item)" [checked]="item.inVendita">
                   <div class="control__indicator"></div>
@@ -56,6 +57,7 @@
               <td>
                 {{item.lang}}
               </td>
+              <td>{{ item.quantita}}</td>
 
               <td>
                 <button class="btn btn-danger" (click)="rimuovi(item)" [popover]="'Elimina'"

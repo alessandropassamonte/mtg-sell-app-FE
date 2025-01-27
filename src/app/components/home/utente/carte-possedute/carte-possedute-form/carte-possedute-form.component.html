@@ -43,7 +43,7 @@
 
     <div class="card mb-4">
         <div class="card-header">
-            <h6>Lista Carte Ordine</h6>
+            <h6>Lista Carte da Aggiungere</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -55,6 +55,7 @@
                             <th>Foil</th>
                             <th>In Vendita</th>
                             <th>Lingua</th>
+                            <th>Quantità</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -71,6 +72,7 @@
                             <td>{{ item.foil ? 'Sì' : 'No'}}</td>
                             <td>{{ item.inVendita ? 'Sì' : 'No'}}</td>
                             <td>{{ item.lang}}</td>
+                            <td>{{ item.quantita}}</td>
                             <td><button *ngIf="!readOnly" class="btn btn-danger" (click)="removeItem(i)" [popover]="'Elimina'"
                                 triggers="mouseenter:mouseleave"> <fa-icon  [icon]="faTrash" [size]="'1x'"></fa-icon></button></td>
                         </tr>
@@ -85,7 +87,7 @@
         </div>
         <div class="row justify-content-end d-flex mb-3" *ngIf="selectedItems && selectedItems.length > 0">
             <div class="col-2">
-                <button class="btn btn-danger" (click)="selectedItems = []" >Svuota ordine</button>
+                <button class="btn btn-danger" (click)="selectedItems = []" >Svuota carte da aggiungere</button>
             </div>
             <div class="col-2">
                 <button class="btn btn-primary" (click)="salvaCards()">Aggiungi Carte</button>

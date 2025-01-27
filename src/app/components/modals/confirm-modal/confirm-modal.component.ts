@@ -42,22 +42,31 @@ export class ConfirmModalComponent {
   @Output() event: EventEmitter<any> = new EventEmitter();
 
 
-  @Input() data!: any;
+  @Input() data: any;
+
+ 
 
   constructor(public bsModalRef: BsModalRef, private userCardService: UserCardService, private fb: FormBuilder, private toast: ToastrService) {
+    
     this.confirmForm = this.fb.group({
       attivo: [true, [Validators.required]],
       foil: [false, [Validators.required]],
       inVendita: [false, [Validators.required]],
       lang: ['en', [Validators.required]],
+      quantita: [1, [Validators.required]],
     })
   }
 
   ngOnInit() {
+    console.log('data ', this.data)
+    if(this.data.aggiuntaSingola){
+      this.confirmForm.patchValue({
+        lang: this.data.card.lang
+      });
+    }
   }
 
   confirm(): void {
-    console.log('data ', this.data)
     if (this.data.aggiuntaSingola)
       this.aggiungiCartaPosseduta()
     else
@@ -67,6 +76,7 @@ export class ConfirmModalComponent {
   }
 
   decline(): void {
+    console.log('data 2', this.data)
     this.bsModalRef?.hide();
   }
 
@@ -101,6 +111,7 @@ export class ConfirmModalComponent {
     userCard.inVendita = this.confirmForm.get('inVendita')?.value
     userCard.attivo = this.confirmForm.get('attivo')?.value
     userCard.lang = this.confirmForm.get('lang')?.value
+    userCard.quantita = this.confirmForm.get('quantita')?.value
     return userCard;
   }
 }

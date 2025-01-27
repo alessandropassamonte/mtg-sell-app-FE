@@ -109,9 +109,9 @@ export class CartePosseduteFormComponent {
       if (result.data) {
         this.userCardService.addAllToUser(this.selectedItems).subscribe({
           next: (res: any) => {
-
             this.toast.clear()
             this.toast.success('Carte inserite con successo')
+            this.selectedItems = []
           }
         })
       }

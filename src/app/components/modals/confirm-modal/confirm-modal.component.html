@@ -31,10 +31,19 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
+                    <label for="active">Lingua</label>
                     <select class="form-select" aria-label="Lang" id="lang" formControlName="lang">
                         <option *ngFor="let language of languages" [value]="language.value">{{language.label}}</option>
                     </select>
-                    <label for="active">Lingua</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-2 mt-3">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="quant">Quantità</label>
+                    <input type="number" formControlName="quantita" id="quant">
                 </div>
             </div>
         </div>

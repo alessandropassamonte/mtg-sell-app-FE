@@ -8,4 +8,5 @@ export class UserCard {
     card?: Card;
     lang?: string;
     date?: Date;
+    quantita?: number;
 }
