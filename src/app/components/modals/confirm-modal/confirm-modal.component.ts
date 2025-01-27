@@ -16,6 +16,25 @@ export class ConfirmModalComponent {
   title?: string;
   closeBtnName?: string;
   cardsId: any[] = [];
+  languages = [
+    { value: 'it', label: 'Italiano' },
+    { value: 'en', label: 'Inglese' },
+    { value: 'fr', label: 'Francese' },
+    { value: 'pt', label: 'Portoghese' },
+    { value: 'ja', label: 'Giapponese' },
+    { value: 'ru', label: 'Russo' },
+    { value: 'de', label: 'Tedesco' },
+    { value: 'es', label: 'Spagnolo' },
+    { value: 'ko', label: 'Coreano' },
+    { value: 'zhs', label: 'Cinese Semplificato' },
+    { value: 'zht', label: 'Cinese Tradizionale' },
+    { value: 'fil', label: 'Filipino' },
+    { value: 'sa', label: 'Sanscrito' },
+    { value: 'grc', label: 'Greco antico' },
+    { value: 'he', label: 'Ebraico' },
+    { value: 'ar', label: 'Arabo' },
+    { value: 'la', label: 'Latino' }
+  ];
 
   confirmForm!: FormGroup
 
