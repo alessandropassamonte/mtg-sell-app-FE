@@ -9,12 +9,12 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ActivateComponent } from './activate/activate.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { CardScanComponent } from './card-scan/card-scan.component';
-import { CardModelComponent } from './card-scan/card-model/card-model.component';
+
 
 
 
 @NgModule({
-  declarations: [LoginComponent, LoginFormComponent, RegistrationFormComponent, ActivateComponent, CardScanComponent, CardModelComponent],
+  declarations: [LoginComponent, LoginFormComponent, RegistrationFormComponent, ActivateComponent, CardScanComponent],
   imports: [
     CommonModule,
     LoginRoutingModule,
