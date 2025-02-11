@@ -1,0 +1,5 @@
+<button (click)="predict(image)">Predici</button>
+<img #image src="path/to/your/image.jpg" alt="Carta Magic">
+<div *ngIf="predictions.length > 0">
+  <p *ngFor="let prediction of predictions">Classe: {{prediction.className}}, Probabilità: {{prediction.probability}}</p>
+</div>
