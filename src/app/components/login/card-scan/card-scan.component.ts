@@ -1,6 +1,5 @@
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import * as tf from '@tensorflow/tfjs';
-import * as cocoSsd from '@tensorflow-models/coco-ssd';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import * as ort from 'onnxruntime-web';
 
 @Component({
   selector: 'app-card-scan',
@@ -10,19 +9,20 @@ import * as cocoSsd from '@tensorflow-models/coco-ssd';
 export class CardScanComponent {
   @ViewChild('video', { static: true }) videoElement!: ElementRef<HTMLVideoElement>;
   @ViewChild('canvas', { static: true }) canvasElement!: ElementRef<HTMLCanvasElement>;
-  model: any;
+  
+  session!: ort.InferenceSession;
 
   constructor() {}
 
   async ngOnInit() {
-    await this.loadModel();
+    await this.loadONNXModel();
     this.startCamera();
   }
 
-  async loadModel() {
-    console.log('Loading YOLO model...');
-    this.model = await cocoSsd.load(); // Puoi sostituire con un modello YOLO personalizzato
-    console.log('Model loaded!');
+  async loadONNXModel() {
+    console.log('Caricamento modello YOLOv11 ONNX...');
+    this.session = await ort.InferenceSession.create('assets/modello.onnx');
+    console.log('Modello ONNX caricato con successo!');
   }
 
   startCamera() {
@@ -30,41 +30,78 @@ export class CardScanComponent {
       .getUserMedia({ video: { facingMode: 'environment' } })
       .then((stream) => {
         this.videoElement.nativeElement.srcObject = stream;
-        this.detectObjects();
+        this.processVideoFrame();
       })
-      .catch((err) => console.error('Error accessing camera:', err));
+      .catch((err) => console.error('Errore nell’accesso alla fotocamera:', err));
   }
 
-  async detectObjects() {
+  async processVideoFrame() {
     const video = this.videoElement.nativeElement;
     const canvas = this.canvasElement.nativeElement;
     const ctx = canvas.getContext('2d');
 
     setInterval(async () => {
-      if (!this.model) return;
-
-      const predictions = await this.model.detect(video);
+      ctx!.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const tensor = this.captureFrame(video);
+      const results = await this.detectObjects(tensor);
 
       ctx!.clearRect(0, 0, canvas.width, canvas.height);
       ctx!.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      predictions.forEach((pred) => {
-        if (pred.class === 'card' && pred.score > 0.6) {
-          console.log('Carta rilevata:', pred);
+      results.forEach((pred) => {
+        if (Number(pred.confidence) > 0.6) {
+          this.drawBoundingBox(ctx!, pred);
           this.callAPI(pred);
         }
-
-        ctx!.strokeStyle = 'red';
-        ctx!.lineWidth = 2;
-        ctx!.strokeRect(pred.bbox[0], pred.bbox[1], pred.bbox[2], pred.bbox[3]);
-        ctx!.fillStyle = 'red';
-        ctx!.fillText(pred.class, pred.bbox[0], pred.bbox[1] - 5);
       });
     }, 500);
   }
 
-  callAPI(prediction: any) {
-    console.log('Chiamata API con:', prediction);
-    // Esegui qui una chiamata HTTP alla tua API con l'immagine o i dettagli della carta rilevata.
+  captureFrame(video: HTMLVideoElement) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d')!;
+    canvas.width = 640;
+    canvas.height = 640;
+    ctx.drawImage(video, 0, 0, 640, 640);
+    
+    const imageData = ctx.getImageData(0, 0, 640, 640);
+    const data = new Float32Array(imageData.data.length);
+
+    for (let i = 0; i < imageData.data.length; i++) {
+      data[i] = imageData.data[i] / 255.0;
+    }
+
+    return new ort.Tensor("float32", data, [1, 3, 640, 640]);
   }
+
+  async detectObjects(inputTensor: ort.Tensor) {
+    const feeds = { images: inputTensor };
+    const results = await this.session.run(feeds);
+    
+    const output = results["output"].data;
+    let detectedObjects = [];
+
+    for (let i = 0; i < output.length; i += 6) {
+      let [x, y, width, height, confidence, classIndex] = output.slice(i, i + 6);
+      if (Number(confidence) > 0.6) {
+        detectedObjects.push({ x, y, width, height, confidence, classIndex });
+      }
+    }
+
+    return detectedObjects;
+  }
+
+  drawBoundingBox(ctx: CanvasRenderingContext2D, pred: any) {
+    ctx!.strokeStyle = 'red';
+    ctx!.lineWidth = 2;
+    ctx!.strokeRect(pred.x, pred.y, pred.width, pred.height);
+    ctx!.fillStyle = 'red';
+    ctx!.fillText(`Carta Magic (${pred.confidence.toFixed(2)})`, pred.x, pred.y - 5);
+  }
+
+  callAPI(pred: any) {
+    console.log('Carta rilevata! Chiamata API:', pred);
+    // Qui puoi inviare i dati a un'API
+  }
+
 }
