@@ -8,12 +8,14 @@ import { CartePosseduteComponent } from './utente/carte-possedute/carte-possedut
 import { GestioneOrdiniComponent } from './utente/gestione-ordini/gestione-ordini.component';
 import { OrdineFormComponent } from './utente/gestione-ordini/ordine-form/ordine-form.component';
 import { CartePosseduteFormComponent } from './utente/carte-possedute/carte-possedute-form/carte-possedute-form.component';
+import { CardScanComponent } from '../login/card-scan/card-scan.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'utente', component: UtenteComponent},
   {path: 'utente/carte', component: CartePosseduteComponent},
   {path: 'utente/carte/aggiungi', component: CartePosseduteFormComponent},
+  {path: 'utente/carte/aggiungi/scan', component: CardScanComponent},
   {path: 'utente/ordini', component: GestioneOrdiniComponent},
   {path: 'utente/ordini/form', component: OrdineFormComponent},
   {path: 'ricerca', component: RicercaComponent},

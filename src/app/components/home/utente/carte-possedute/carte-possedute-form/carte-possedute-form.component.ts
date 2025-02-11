@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faArrowAltCircleLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowAltCircleLeft, faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, catchError, debounceTime, of, switchMap } from 'rxjs';
@@ -32,6 +32,7 @@ export class CartePosseduteFormComponent {
   bsModalRefItem: BsModalRef | undefined;
 
   faArrowAltCircleLeft = faArrowAltCircleLeft;
+  faCamera = faCamera;
   faTrash = faTrash;
 
   private searchSubject = new Subject<string>();
