@@ -27,7 +27,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*.wasm",
+                "input": "src/assets/onnxruntime",
+                "output": "/assets/onnxruntime/"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
@@ -39,8 +44,6 @@
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "node_modules/leaflet/dist/leaflet.js"
-
-              
             ]
           },
           "configurations": {
@@ -99,7 +102,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*.wasm",
+                "input": "src/assets/onnxruntime",
+                "output": "/assets/onnxruntime/"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",

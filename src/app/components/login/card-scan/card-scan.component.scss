@@ -1,0 +1,24 @@
+
+  
+  .button-container {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  video, canvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  

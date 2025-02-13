@@ -9,6 +9,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ActivateComponent } from './activate/activate.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { CardScanComponent } from './card-scan/card-scan.component';
+import { IonicModule } from '@ionic/angular';
 
 
 
@@ -21,6 +22,7 @@ import { CardScanComponent } from './card-scan/card-scan.component';
     FormsModule, 
     ReactiveFormsModule,
     BsDatepickerModule,
+    IonicModule,
     AlertModule
   ]
   
