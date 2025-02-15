@@ -1,20 +1,16 @@
-<ion-content>
+<ion-list>
+  <ion-item *ngFor="let log of logs">
+    <ion-label>{{ log }}</ion-label>
+  </ion-item>
+</ion-list>
 
-    <div class="video-container">
-      <video #video autoplay playsinline muted></video>
-      <canvas #canvas></canvas>
-    </div>
-  
-    <div class="button-container">
-      <ion-button expand="full" (click)="requestCameraPermission()">Avvia Fotocamera</ion-button>
-      <!-- <ion-button expand="full" (click)="callAPI('tesdt')">Invia Carte all'API</ion-button> -->
-    </div>
-  
-    <!-- ✅ Log visibili in pagina -->
-       <ion-list>
-        <ion-item *ngFor="let log of logs">
-          <ion-label>{{ log }}</ion-label>
-        </ion-item>
-      </ion-list>
-  </ion-content>
-  
+<div class="scanner-container">
+  <!-- Video della fotocamera -->
+  <video #videoElement autoplay playsinline></video>
+
+  <!-- Canvas trasparente sopra il video -->
+  <canvas #canvasElement></canvas>
+</div>
+
+<!-- Log per il debug -->
+
