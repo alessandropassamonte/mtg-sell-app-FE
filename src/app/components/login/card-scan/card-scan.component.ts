@@ -7,43 +7,50 @@ import * as tf from '@tensorflow/tfjs';
   styleUrls: ['./card-scan.component.scss']
 })
 export class CardScanComponent implements OnInit {
-  @ViewChild("videoElement", { static: true }) videoElement!: ElementRef<HTMLVideoElement>;
-  @ViewChild("canvasElement", { static: true }) canvasElement!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('videoElement', { static: true }) videoElement!: ElementRef<HTMLVideoElement>;
+  @ViewChild('canvasElement', { static: true }) canvasElement!: ElementRef<HTMLCanvasElement>;
 
   model!: tf.GraphModel;
-  isDetecting = false;
-  FRAME_WIDTH = 500;
-  FRAME_HEIGHT = 700;
+  logs: string[] = [];  // <- Array dei messaggi di log
 
-  logs: any
+  VIDEO_WIDTH = 500;
+  VIDEO_HEIGHT = 700;
+
   constructor() { }
 
   async ngOnInit() {
-    this.addLog("Avvio caricamento del modello...");
+    this.addLog('Avvio caricamento del modello...');
     await this.loadModel();
-    this.addLog("Modello caricato!");
+    this.addLog('Modello caricato!');
     this.startCamera();
   }
 
-  // ✅ Funzione per aggiungere log di debug
+  // Salviamo un messaggio di log sia in console che nell’array logs
   addLog(message: string) {
     const timestamp = new Date().toLocaleTimeString();
-    console.log(`[${timestamp}] ${message}`);
+    const fullMessage = `[${timestamp}] ${message}`;
+    console.log(fullMessage);
+    this.logs.push(fullMessage);
   }
 
-  // ✅ Carica il modello TensorFlow.js (JSON)
+  // Caricamento del modello
   async loadModel() {
-    console.log("🔄 Caricamento modello TensorFlow.js...");
-    this.model = await tf.loadGraphModel('/assets/tfjs_model/model.json'); // Percorso locale
-    console.log("✅ Modello TensorFlow.js caricato!");
+    this.addLog("Caricamento modello TensorFlow.js...");
+    this.model = await tf.loadGraphModel('/assets/tensorflow_model/model.json');
+    this.addLog('Model Inputs:' + JSON.stringify(this.model.inputs));
+    this.addLog('Model Outputs:' + JSON.stringify(this.model.outputs));
+
   }
 
-  // ✅ Avvia la fotocamera
+  // Avvio della fotocamera
   async startCamera() {
     try {
       const constraints = { video: { facingMode: 'environment' } };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       const video = this.videoElement.nativeElement;
+
+      video.width = this.VIDEO_WIDTH;
+      video.height = this.VIDEO_HEIGHT;
       video.srcObject = stream;
 
       video.onloadedmetadata = () => {
@@ -55,69 +62,113 @@ export class CardScanComponent implements OnInit {
     }
   }
 
-  // ✅ Funzione per rilevare oggetti con TensorFlow.js
-  async detectObjects() {
+  detectObjects() {
     if (!this.model) {
-      console.error("❌ Modello non ancora caricato!");
+      this.addLog("Modello non caricato, impossibile eseguire il detection loop!");
       return;
     }
-  
-    this.isDetecting = true;
+
     const video = this.videoElement.nativeElement;
     const canvas = this.canvasElement.nativeElement;
-    const ctx = canvas.getContext("2d");
-  
+    canvas.width = this.VIDEO_WIDTH;
+    canvas.height = this.VIDEO_HEIGHT;
+    const ctx = canvas.getContext('2d')!;
+
     setInterval(async () => {
-      ctx!.clearRect(0, 0, canvas.width, canvas.height);
-  
-      // 🔹 Prepara il frame come input per il modello
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Prepara frame
       const inputTensor = tf.browser.fromPixels(video)
-        .resizeBilinear([640, 640])  // Adatta la dimensione all'input del modello
+        .resizeBilinear([640, 640])  // YOLO dimension
         .expandDims(0)
         .toFloat()
         .div(tf.scalar(255));
-  
-      // 🔍 Esegui inferenza
-      const predictions = await this.model.executeAsync(inputTensor) as tf.Tensor[];
-      this.addLog("📊 Predictions shape:\n"+ predictions.map(p => p.shape));
-      this.addLog("📊 Predictions raw output:\n"+ predictions);
 
-  
-      // DEBUG: Mostra la struttura dei tensori
-      console.log("Predictions shape:", predictions.map(p => p.shape));
-  
-      const boxesTensor = predictions[0];  // Bounding boxes
-      const scoresTensor = predictions[1]; // Confidence scores
-      const classesTensor = predictions[2]; // Classi
-  
-      // 🔹 Converti i tensori in array corretti
-      const boxes = await boxesTensor.array() as number[][]; 
-      const scores = await scoresTensor.array() as number[]; 
-      const classes = await classesTensor.array() as number[];
-  
-      // 🔹 Disegna bounding box per ogni oggetto rilevato
-      boxes.forEach((box, i) => {
-        if (scores[i] > 0.03) {  // Se il punteggio di confidenza è alto
-          this.drawBoundingBox(ctx!, {
-            bbox: box,
-            score: scores[i],
-            class: classes[i]
-          });
+      let prediction: tf.Tensor;
+      try {
+        prediction = await this.model.executeAsync(inputTensor) as tf.Tensor;
+        // this.addLog(`executeAsync completato, shape: ${prediction.shape}`);
+      } catch (err) {
+        this.addLog('Errore in executeAsync: ' + err);
+        tf.dispose(inputTensor);
+        return;
+      }
+
+      // Supponiamo shape [1, 5, N] con [cx, cy, w, h, conf]
+      const data = prediction.arraySync() as number[][][]; // data[0] => [5, N]
+      const channels = data[0]; // dimensioni => [5, N]
+      // channels[0] = tutti i cx
+      // channels[1] = tutti i cy
+      // channels[2] = tutti i w
+      // channels[3] = tutti i h
+      // channels[4] = tutti i conf
+      const boxCount = channels[0].length;
+
+      // Soglia
+      const minConf = 0.5;
+
+      // Raccogliamo box e score in array per la NMS di TF.js
+      const boxesArr: number[][] = [];  // form [yMin, xMin, yMax, xMax]
+      const scoresArr: number[] = [];
+
+      for (let i = 0; i < boxCount; i++) {
+        const cx = channels[0][i];
+        const cy = channels[1][i];
+        const w = channels[2][i];
+        const h = channels[3][i];
+        const conf = channels[4][i];
+
+        if (conf > minConf) {
+          // Converti (cx, cy, w, h) -> (yMin, xMin, yMax, xMax)
+          const xMin = cx - w / 2;
+          const yMin = cy - h / 2;
+          const xMax = cx + w / 2;
+          const yMax = cy + h / 2;
+
+          boxesArr.push([yMin, xMin, yMax, xMax]);
+          scoresArr.push(conf);
         }
+      }
+
+      // Applichiamo NMS con IoU threshold 0.5, max 20 box
+      const nmsThreshold = 0.5;
+      const maxBoxes = 20;
+      const boxesTensor = tf.tensor2d(boxesArr);
+      const scoresTensor = tf.tensor1d(scoresArr);
+      const selectedIndices = tf.image.nonMaxSuppression(
+        boxesTensor, scoresTensor, maxBoxes, nmsThreshold
+      );
+
+      // Recuperiamo gli indici in un array JS
+      const selectedIdxArray = selectedIndices.arraySync() as number[];
+
+      // Disegniamo SOLO le box selezionate
+      const scaleX = canvas.width / 640;
+      const scaleY = canvas.height / 640;
+
+      selectedIdxArray.forEach(idx => {
+        const [yMin, xMin, yMax, xMax] = boxesArr[idx];
+        const conf = scoresArr[idx];
+
+        // Ridimensioniamo
+        const startX = xMin * scaleX;
+        const startY = yMin * scaleY;
+        const boxWidth = (xMax - xMin) * scaleX;
+        const boxHeight = (yMax - yMin) * scaleY;
+
+        // Disegno
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(startX, startY, boxWidth, boxHeight);
+
+        ctx.fillStyle = 'red';
+        ctx.font = '16px Arial';
+        ctx.fillText(`Carta Magic (${(conf * 100).toFixed(1)}%)`, startX, startY - 5);
       });
-  
-      tf.dispose(inputTensor); // Libera memoria
+
+      // Svuota tensori per evitare memory leak
+      tf.dispose([inputTensor, prediction, boxesTensor, scoresTensor, selectedIndices]);
     }, 500);
   }
-  
 
-  // ✅ Disegna le bounding box sopra il video
-  drawBoundingBox(ctx: CanvasRenderingContext2D, pred: any) {
-    const [x, y, width, height] = pred.bbox;
-    ctx!.strokeStyle = "red";
-    ctx!.lineWidth = 2;
-    ctx!.strokeRect(x, y, width, height);
-    ctx!.fillStyle = "red";
-    ctx!.fillText(`Carta Magic (${(pred.score * 100).toFixed(2)}%)`, x, y - 5);
-  }
 }

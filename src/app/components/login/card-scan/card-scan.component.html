@@ -1,16 +1,17 @@
-<ion-list>
-  <ion-item *ngFor="let log of logs">
-    <ion-label>{{ log }}</ion-label>
-  </ion-item>
-</ion-list>
+<div class="container">
+  <!-- Sezione Log -->
+  <div class="log-section">
+    <h3>Log</h3>
+    <div class="log-content" style="max-height: 200px; overflow-y: auto;">
+      <div *ngFor="let log of logs">{{ log }}</div>
+    </div>
+  </div>
+  <!-- Video -->
+  <video #videoElement></video>
 
-<div class="scanner-container">
-  <!-- Video della fotocamera -->
-  <video #videoElement autoplay playsinline></video>
-
-  <!-- Canvas trasparente sopra il video -->
+  <!-- Canvas -->
   <canvas #canvasElement></canvas>
+
+  
+  
 </div>
-
-<!-- Log per il debug -->
-
