@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {  faCamera } from '@fortawesome/free-solid-svg-icons';
 import * as tf from '@tensorflow/tfjs';
 
 @Component({
@@ -13,8 +14,11 @@ export class CardScanComponent implements OnInit {
   model!: tf.GraphModel;
   logs: string[] = [];  // <- Array dei messaggi di log
 
+  faCamera = faCamera;
+  
   VIDEO_WIDTH = 500;
   VIDEO_HEIGHT = 700;
+
 
   constructor() { }
 

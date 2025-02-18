@@ -1,17 +1,16 @@
-<div class="container">
-  <!-- Sezione Log -->
-  <div class="log-section">
-    <h3>Log</h3>
-    <div class="log-content" style="max-height: 200px; overflow-y: auto;">
-      <div *ngFor="let log of logs">{{ log }}</div>
+<div class="scan-container">
+  <!-- Contenitore per video e canvas -->
+  <div class="video-canvas-wrapper">
+    <!-- Video della fotocamera -->
+    <video #videoElement autoplay muted playsinline></video>
+    
+    <!-- Canvas per il disegno delle bounding box -->
+    <canvas #canvasElement></canvas>
+
+    <!-- Bottoni sovrapposti -->
+    <div class="button-container">
+      <button class="action-button">🔄 Riprova</button>
+      <button class="action-button">📸 Cerca Carte</button>
     </div>
   </div>
-  <!-- Video -->
-  <video #videoElement></video>
-
-  <!-- Canvas -->
-  <canvas #canvasElement></canvas>
-
-  
-  
 </div>
