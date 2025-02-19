@@ -1,6 +1,19 @@
 <div class="container px-5 my-5">
   <div class="row">
-    <div class="col-sm-6">
+
+    <div class="col-sm-4 mb-4">
+      <div class="card">
+        <h5 class="card-header">
+          <div class="rounded-3 mb-3"><i class="bi bi-camera"></i></div>
+        </h5>
+        <div class="card-body">
+          <h5 class="card-title">Scan Carte</h5>
+          <p class="card-text">Scannerizza carte Magic</p>
+          <a [routerLink]="['/scan']" class="btn btn-primary">Vai allo Scanner</a>
+        </div>
+      </div>
+    </div> 
+    <div class="col-sm-4 mb-4">
       <div class="card">
         <h5 class="card-header">
           <div class="rounded-3 mb-3"><i class="bi bi-person-circle"></i>
@@ -13,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-4 mb-4">
       <div class="card">
         <h5 class="card-header">
           <div class="rounded-3 mb-3"><i class="bi bi-search"></i></div>
@@ -25,5 +38,6 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>
